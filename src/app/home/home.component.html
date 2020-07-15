@@ -1,0 +1,108 @@
+<app-header></app-header>
+<app-jumbotron></app-jumbotron>
+<div class="main-content">
+    <div class="container-fluid shadow">
+        <div class="row bg-white text-center">
+            <div class="col-sm-12 py-4">
+                <h2>ABOUT US</h2>
+                <p>
+                    <span>Pitbull Paradise is a 501(c)(3) non-profit organization operated solely on donations from the
+                        community.</span>
+                    Without the support from you we are not able to help these precious animals in
+                    need. Our rescue in Lakeland cares for more than 100 animals annually that have been surrendered by
+                    their
+                    owners,transferred from kill shelters,or from the streets.
+                </p>
+                <h2>OUR MISSION</h2>
+                <p>
+                    Pitbull Paradise envisions a compassionate world where pitbulls reside in
+                    responsible, loving homes and where their honor and positive image is restored and preserved.
+                </p>
+            </div>
+        </div>
+        <div class="row bg-dark">
+            <div class="col-sm-12 col-md-4 py-4 text-center">
+                <div class='adopt-button square'>
+                    <a routerLink='/adoptables/list'>
+                        <span class='fa-stack fa-2x'>
+                            <i class='far fa-circle fa-stack-2x'></i>
+                            <i class='fas fa-paw fa-stack-1x'></i>
+                        </span>
+                        <h1>Adopt</h1>
+                        <h2>Meet our adoptable companions</h2>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4 py-4 text-center">
+                <div class='volunteer-button square'>
+                    <a routerLink='/volunteer'>
+                        <span class='fa-stack fa-2x'>
+                            <i class='far fa-circle fa-stack-2x'></i>
+                            <i class='fas fa-users fa-stack-1x'></i>
+                        </span>
+                        <h1>Volunteer</h1>
+                        <h2>A little time makes a big difference</h2>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4 py-4 text-center">
+                <div class='donate-button square '>
+                    <a routerLink='/donate'>
+                        <span class='fa-stack fa-2x'>
+                            <i class='far fa-circle fa-stack-2x'></i>
+                            <i class='fas fa-dollar-sign fa-stack-1x'></i>
+                        </span>
+                        <h1>Donate</h1>
+                        <h2>Help us create a better world for pitbulls</h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-white rounded-bottom">
+            <div [ngClass]="dogs ? 'col-sm-6':'col-sm-12'" class="py-4">
+                <h2>Upcoming Events</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped table-custom">
+                        <tbody>
+                            <tr>
+                                <td><a href='#'>Paws in the Park</a></td>
+                                <td>March 1st</td>
+                            </tr>
+                            <tr>
+                                <td><a href='#'>Pup Crawl</a></td>
+                                <td>March 4th</td>
+                            </tr>
+                            <tr>
+                                <td><a href='#'>Lakeland Bark Fest</a></td>
+                                <td>March 14th</td>
+                            </tr>
+                            <tr>
+                                <td><a href='#'>Lakeland Dog Frisbee League</a></td>
+                                <td>March 24th</td>
+                            </tr>
+                            <tr>
+                                <td><a href='#'>Pitbull Paradise Adoption Drive</a></td>
+                                <td>April 7th</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div *ngIf="dogs" class="col-sm-6 py-4">
+                <h2>Featured Pet</h2>
+                <div class="text-center">
+                    <img src='{{ dogs.image }}' class="img-thumbnail" width="400" height="400"
+                        alt='image of the animal'>
+                </div>
+                <h4><span class='text-dark'>{{dogs.name}}</span></h4>
+                <h3>About <span class='text-dark'>{{dogs.name}}</span></h3>
+                <p>{{dogs.description | slice:0:100}}...</p>
+                <div class="text-center">
+                    <a class="btn btn-custom py-3" routerLink="/search/{{dogs.name | lowercase}}-{{dogs.id}}">Learn more
+                        about {{dogs.name}}.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

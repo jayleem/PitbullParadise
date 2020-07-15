@@ -1,0 +1,96 @@
+a {
+    text-decoration: none;
+}
+
+.row {
+    width: 100%;
+    min-height:300px;
+}
+
+.square {
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    min-width: 200px;
+    min-height: 250px;
+    max-width: 300px;
+    max-height: 350px;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.4);
+    padding: 1em 0px;
+}
+
+.square span {
+    align-self: center;
+}
+
+.square h1 {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 100;
+    color: #f6f8f9;
+}
+
+.square h2 {
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+}
+
+.square h1:hover {
+    color: #e9914a;
+}
+
+.square:hover {
+    transition: all .5s ease-out;
+    -o-transition: all .5s ease-out;
+    -ms-transition: all .5s ease-out;
+    -moz-transition: all .5s ease-out;
+    -webkit-transition: all .5s ease-out;
+    transform: rotate(-5deg);
+    -o-transform: rotate(-5deg);
+    -ms-transform: rotate(-5deg);
+    -moz-transform: rotate(-5deg);
+    -webkit-transform: rotate(-5deg);
+}
+
+.adopt-button {
+    background: linear-gradient(to left, #4b8b7c70, #4b8b7c70), url('src/assets/adopt.png') no-repeat center / cover;
+}
+
+.volunteer-button {
+    background: linear-gradient(to left, #b1837370, #b1837370), url('src/assets/volunteer.png') no-repeat center / cover;
+}
+
+.donate-button {
+    background: linear-gradient(to left, #2b2c3270, #2b2c3270), url('src/assets/donate.png') no-repeat center / cover;
+}
+
+i {
+    color: #f6f8f9;
+}
+
+//table styles
+.table-custom {
+    td {
+        color: #2b2c32 !important;
+        border: 0 !important;
+
+        a{
+            color: #2b2c32 !important;
+        }
+        a:hover {
+            color: #e9914a !important;
+            font-weight: 700;
+        }
+    }
+}
+.table-striped>tbody>tr:nth-child(even)>td {
+    background-color: #4b8b7c !important;
+  }
+.table-striped>tbody>tr:nth-child(odd)>td {
+   background-color: #f6f8f9 !important;
+ }
+
+ img {
+     max-height: 400px;
+ }

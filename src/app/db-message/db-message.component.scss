@@ -1,0 +1,24 @@
+db-error-container {
+    z-index: 1;
+}
+.db-message-success {
+    width: 100%;
+    z-index: 1;
+    background: #4b8b7c;
+    border-top: 2px solid #ffffff80;
+    border-bottom: 2px solid #ffffff80;
+}
+.db-message-error {
+    width: 100%;
+    z-index: 1;
+    background-color: #ff0000;
+    border-top: 2px solid #ffffff80;
+    border-bottom: 2px solid #ffffff80;
+}
+
+p {
+    margin:0;
+    padding: 4px;
+    text-align: center;
+    font-size: 1em;
+}

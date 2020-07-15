@@ -1,0 +1,12 @@
+<div *ngIf="message$" class="container-fluid db-error-container sticky-top">
+    <div class="row w-100">
+        <div class="col-sm-12 p-0 m-0">
+            <div *ngIf="message$.type == 'error'" class="position-absolute db-message-error">
+                <p class="text-light text-outline-dark">{{message$.message}}</p>
+            </div>
+            <div *ngIf="message$.type == 'success'" class="position-absolute db-message-success">
+                <p class="text-light text-outline-dark">{{message$.message}}</p>
+            </div>
+        </div>
+    </div>
+</div>

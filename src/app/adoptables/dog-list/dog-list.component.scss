@@ -1,0 +1,54 @@
+p {
+    margin:0;
+    padding: 0;
+}
+
+.fas.fa-mars {
+    color: #6767ff;
+    font-size: 1.5em;
+    text-shadow: #000 2px 0px 2px;
+}
+
+.fas.fa-venus {
+    color: pink;
+    font-size: 1.5em;
+    text-shadow: #000 2px 0px 2px;
+}
+
+.notShown {
+    min-height: 75vh;
+    width: 100%;
+}
+
+.name {
+    color: #e9914a;
+    font-weight: 700;
+}
+
+a {
+    text-decoration: none;
+}
+.dog-details:hover {
+    img {
+        opacity: .5;
+        transition: .5s ease; //vendorless
+        -o-transition: .5s ease; //opera
+        -ms-transition: .5s ease; //IE
+        -moz-transition: .5s ease; //firefox
+        -webkit-transition: .5s ease; //safari and chrome
+    }
+}
+
+img {
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.filter {
+    a:hover,
+    button:hover {
+        box-shadow: 0 0 0 2px #4b8b7c !important;
+    }
+}

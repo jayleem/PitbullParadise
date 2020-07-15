@@ -1,0 +1,200 @@
+/* Importing Bootstrap SCSS file. */
+
+@import '~bootstrap/scss/bootstrap';
+
+/* global rules */
+body, html {
+    width:100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+}
+
+i {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    margin:0;
+    padding:0;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.container {
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid {
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.main-content {
+    min-height: 100vh;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    padding-bottom: 40px;//40-80px pretty decent don't want to match the footer height as it leaves to much white space for the current layout
+}
+
+@media ALL and (min-width:900px) {
+    .main-content {
+        width: 85%;
+        margin: 0 auto;
+    }
+}
+
+/*
+Pitbull Paradise Brand Colors:
+
+#f6f8f9 Porcelain light shades
+#2b2c32 Shark dark shades (grey/black)
+#e29c62 Di Serria light accent
+#9ac8b3 Shadow Green main color
+#b18373 Sandal dark accent
+#4b8b7c Viridian dark shades
+
+*/
+.btn-custom {
+    min-width: 150px;
+    height: auto;
+    color: #f6f8f9 !important;
+    background-color: #4b8b7c;
+    font-size: 1.5em;
+    border: 2px solid #85ad9c !important;
+}
+.btn-custom:hover {
+    color: #e9914a !important;
+    cursor: pointer !important
+}
+.btn-custom:hover:disabled {
+    color: #f6f8f9 !important;
+    cursor: no-drop !important
+}
+.btn-system {
+    background-color: #4b8b7c !important;
+    color: #f6f8f9 !important;
+    border: 1px solid #2b2c32;
+    border-radius: 4px;
+    padding: 4px 0px;
+}
+.btn-system:hover {
+    background-color: #4b8b7ccc !important;
+}
+.bg-primary {
+    background-color: #9ac8b3 !important;
+}
+.bg-secondary {
+    background-color: #4b8b7c !important;
+}
+.bg-dark {
+    background-color: #2b2c32 !important;
+}
+.bg-light {
+    background-color: #f6f8f9 !important;
+}
+.bg-white {
+    background-color: #fff !important;
+    color: #2b2c32 !important;
+}
+.text-light {
+    color: #f6f8f9 !important;
+}
+.text-dark {
+    color: #2b2c32 !important;
+}
+.text-contrast {
+    color: #e29c62 !important;
+}
+.text-viridian {
+    color: #4b8b7c !important;
+}
+.text-outline-light {
+    text-shadow: -1px -1px 0 #f6f8f9, 1px -1px 0 #f6f8f9, -1px 1px 0 #f6f8f9, 1px 1px 0 #f6f8f9 !important;
+}
+.text-outline-dark {
+    text-shadow: -1px -1px 0 #2b2c32, 1px -1px 0 #2b2c32, -1px 1px 0 #2b2c32, 1px 1px 0 #2b2c32 !important;
+}
+.text-outline-contrast {
+    text-shadow: -1px -1px 0 #2b2c32, 1px -1px 0 #2b2c32, -1px 1px 0 #2b2c32, 1px 1px 0 #2b2c32 !important;
+}
+
+.row {
+    margin: auto;
+}
+
+//adds text-outline on certain elements makes it really stand out
+//
+
+//ng-pagination styles
+//rules must be in global styles.scss
+.page-link:focus {
+    box-shadow: none !important;
+    border-color: transparent !important;
+    outline: 1px solid #e7e7e7 !important;
+}
+.pagination>.page-item {
+    .page-link {
+        background-color: #fff !important;
+        color: #fff !important;
+        border: 1px solid #e7e7e7;
+        border-radius: 1;
+        font-size: 1em;
+        padding: 8px 16px;
+    }
+}
+.pagination>.page-item.active {
+    .page-link {
+        color: #2b2c32 !important;
+        background-color: #f6f8f9 !important;
+        }
+    }
+.pagination>.page-item:not(active) {
+    .page-link {
+        color: #b8b8b8 !important;
+    }
+}
+/* prev/next controls enabled */
+.pagination>.page-item:first-child {
+    .page-link {
+        color: #2b2c32 !important;
+        background-color: #f6f8f9 !important;
+    }
+}
+.pagination>.page-item:last-child {
+    .page-link {
+        color: #2b2c32 !important;
+        background-color: #f6f8f9 !important;
+    }
+}
+/* prev/next controls disabled */
+.pagination>.page-item.disabled {
+    .page-link {
+        color: #b8b8b8 !important;
+        background-color: #f6f8f9 !important;
+    }
+}
+
+.rounded-top {
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+    padding-top: 1em;
+}
+
+.rounded-bottom {
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    padding-bottom: 1em;
+ }

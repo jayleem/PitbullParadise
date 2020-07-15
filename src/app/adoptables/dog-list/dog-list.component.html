@@ -1,0 +1,119 @@
+<div class="main-content">
+    <div *ngIf="dogs; else notShown" class="container-fluid bg-white shadow rounded-bottom">
+        <div class="row filter py-4">
+            <div class="col-sm-12">
+                <div class="card w-100 shadow-sm">
+                    <div class="card-header">
+                        Filters
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3 input-group">
+                                <label for="currentAge">Age:</label>
+                                <select name="currentAge" id="currentAge" class="ml-2 mr-2 form-control"
+                                    [(ngModel)]="currentAge" (change)="changeAge($event.target.value)">
+                                    <option value="puppy">Puppy</option>
+                                    <option value="adult">Adult</option>
+                                    <option value="senior">Senior</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3 input-group">
+                                <label for="currentGender">Gender:</label>
+                                <select name="currentGender" id="currentGender" class="ml-2 mr-2 form-control"
+                                    [(ngModel)]="currentGender" (change)="changeGender($event.target.value)">
+                                    <option value="female">Female</option>
+                                    <option value="male">Male</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-sm-10 input-group">
+                                <label for="currentId">Search</label>
+                                <input type="text" name="currentId" id="currentId" class="mr-2 form-control"
+                                    [(ngModel)]="currentId" (input)="changeId($event.target.value)"
+                                    placeholder="id, name, breed, gender, traits">
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-sm-12">
+                                <a class="btn border btn-sm m-1" (click)="applyFilters()">Apply
+                                    Filters</a>
+                                <a class="btn border btn-sm m-1" (click)="clearFilters()">Clear
+                                    Filters</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm 12 d-flex justify-content-center">
+                <div class="col-sm-auto">
+                    <!-- if skip is equal to "0" disable the user from going back further -->
+                    <button [disabled]="skip == '0'" class="btn btn-custom btn-sm" (click)=onPrev()>Prev</button>
+                </div>
+                <div class="col-sm-auto">
+                    <!-- if the length of the documents array is less than limit then disable the user from going forward any further -->
+                    <button [disabled]="(skip | toNum) >= maxDocs" class="btn btn-custom btn-sm" (click)=onNext()>Next</button>
+                </div>
+            </div>
+        </div>
+        <div class="row px-4">
+            <div *ngFor="let dog of dogs | slice: pageSize:pageSize+itemsPerPage; let i = index;" class="col-sm-4 my-3">
+                <a routerLink="/search/{{dog.name | lowercase}}-{{dog.id}}">
+                    <div class="card dog-details">
+                        <div class="card-header">
+                            <p class='text-muted'>{{dog.id}}</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6 text-left p-0">
+                                    <p class="card-text name">{{dog.name}}</p>
+                                    <p class="card-text text-muted">{{formatAge(dog.age)}}</p>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <p class="card-text">
+                                        <i [ngClass]="dog.gender == 'Male' ? 'fas fa-mars':'fas fa-venus'"></i>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 p-0">
+                                    <p class="card-text text-muted">{{dog.breed}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 p-0">
+                                    <img class="card-img img-thumbnail" src="{{dog.image}}" width="200px" height="200px"
+                                        alt="photo of {{dog.name}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm 12 d-flex justify-content-center">
+                <div class="col-sm-auto">
+                    <!-- if skip is equal to "0" disable the user from going back further -->
+                    <button [disabled]="skip == '0'" class="btn btn-custom btn-sm" (click)=onPrev()>Prev</button>
+                </div>
+                <div class="col-sm-auto">
+                    <!-- if the length of the documents array is less than limit then disable the user from going forward any further -->
+                    <button [disabled]="(skip | toNum) >= maxDocs" class="btn btn-custom btn-sm" (click)=onNext()>Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #notShown>
+        <div class="notShown bg-white shadow-sm rounded mt-4 d-flex flex-row justify-content-center align-items-center">
+            <div class="col-sm-12 text-center">
+                <h4>Yay,</h4>
+                <p class="my-2">All of our dogs have been adopted, please check back soon.</p>
+                <a class="btn btn-custom" routerLink="/">Back to Home Page</a>
+            </div>
+        </div>
+    </ng-template>
+</div>
