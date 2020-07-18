@@ -5,6 +5,7 @@ import { AdoptablesComponent } from './adoptables/adoptables.component';
 import { DogListComponent } from './adoptables/dog-list/dog-list.component';
 import { DogDetailsComponent } from './adoptables/dog-details/dog-details.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { DogAdoptionFormComponent } from './adoption/dog-adoption-form/dog-adoption-form.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: ':params', component: DogDetailsComponent },
     ]
   },
+  { path: 'adoption/:params', component: DogAdoptionFormComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', redirectTo: '404' }
 ];

@@ -1,5 +1,6 @@
 import { BrowserModule, Title, Meta } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //Angular Default Components
 //
@@ -16,13 +17,13 @@ import { AdoptablesComponent } from './adoptables/adoptables.component';
 import { DogDetailsComponent } from './adoptables/dog-details/dog-details.component';
 import { DogListComponent } from './adoptables/dog-list/dog-list.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { DogAdoptionFormComponent } from './adoption/dog-adoption-form/dog-adoption-form.component';
 import { DonateComponent } from './donate/donate.component';
 import { DbMessageComponent } from './db-message/db-message.component';
 
 //Services
 //
 import { AdoptableService } from './shared/services/adoptable.service';
-import { DbMessageService } from './shared/services/db-message.service';
 
 //Custom Pipes
 //
@@ -43,6 +44,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     DogDetailsComponent,
     DogListComponent,
     PageNotFoundComponent,
+    DogAdoptionFormComponent,
     DonateComponent,
     ToNumPipe,
     DbMessageComponent,
@@ -56,7 +58,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule
   ],
   providers: [
-    AdoptableService, AuthService, DbMessageService, Title, Meta,
+    AdoptableService, AuthService, DbMessageService, Title, Meta
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,43 @@
+form {
+    max-width: 1200px !important;
+    margin: 0 auto;
+}
+
+label {
+    margin-right: 8px;
+}
+
+textarea {
+    resize: none;
+}
+
+p {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+.letterhead {
+    p {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+input[type='text'].form-control {
+    border: 0 !important;
+    border-bottom: 1px solid #000 !important;
+    border-radius: 0px;
+    background-color: transparent !important;
+}
+
+.border-form {
+    border: 2px solid silver;
+}
+
+.border-dashed {
+    border: 2px dashed silver;
+}
+
+hr {
+    border-top: 2px dashed silver;
+}
