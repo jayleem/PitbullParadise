@@ -1,0 +1,32 @@
+img {
+    min-width: 120px;
+    min-height: 120px;
+    max-width: 120px;
+    max-height: 120px;
+}
+
+p {
+    padding: 0;
+    margin: 0;
+}
+
+.dog-container {
+    opacity: .8 !important;
+    border: 2px solid #4b8b7c !important;
+    img {
+        filter: grayscale(100%);
+    }
+}
+
+.dog-container:hover {
+    opacity: 1.0 !important;
+    border: 2px solid #4b8b7c !important;
+    img {
+        filter: grayscale(0%);
+    }
+}
+
+a:hover,
+button:hover {
+    box-shadow: 0 0 0 2px #4b8b7c !important;
+}

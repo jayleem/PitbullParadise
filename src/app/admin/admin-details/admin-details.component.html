@@ -1,0 +1,43 @@
+<div *ngIf="dogs" class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card my-4">
+                <div *ngIf="dogs.hasMedicalNeeds" class="card-header adoption-warning">
+                    <p>This animal has special needs</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 d-inline-block text-left">
+                            <p class="card-title name mr-2">{{dogs.name}}<i class="ml-1"
+                                    [ngClass]="dogs.gender === 'Male' ? 'fas fa-mars':'fas fa-venus'"></i></p>
+                            <p class='text-muted'>{{id}}</p>
+                            <p>{{dogs.breed}}</p>
+                            <p>{{formatAge(dogs.age)}}</p>
+                        </div>
+                        <div class="col-sm-12 my-2 text-center">
+                            <img class="img-thumbnail" src="{{dogs.image}}" width="400px" height="400px" alt="">
+                        </div>
+                        <div class="col-sm-12 my-2">
+                            <h2>About {{dogs.name}}:</h2>
+                            <p>{{dogs.description}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 my-2">
+                            <h2>Traits:</h2>
+                            <ul>
+                                <li *ngFor="let trait of dogs.traits">{{trait}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div *ngIf="dogs.hasMedicalNeeds" class="col-sm-12 my-2">
+                            <h2>Health Issues:</h2>
+                            <p>{{dogs.healthDesc}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

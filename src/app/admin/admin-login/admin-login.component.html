@@ -1,0 +1,37 @@
+<div class="row vh-50 align-items-center">
+    <div class="col-sm-12">
+        <div class="card bg-white rounded">
+            <div class="card-header">
+                <h6>Admin Login</h6>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="credentialDataForm" (ngSubmit)="credentialDataForm.valid && onSubmit()">
+                    <div formGroupName="credentialData">
+                        <div class="form-group text-center">
+                            <div class="form-row justify-content-center">
+                                <div class="col-sm-8">
+                                    <label class="col-sm-12 text-left" for="username">Username:</label>
+                                    <input type="text" id="username" formControlName="username" placeholder=""
+                                        class="form-control col-sm-12">
+                                    <p *ngIf="!credentialDataForm.get('credentialData.username').valid && credentialDataForm.get('credentialData.username').touched"
+                                        class="text-left col-sm-12">Please enter a valid username.</p>
+                                    <label class="col-sm-12 col-form-label text-left" for="password">Password:</label>
+                                    <input type="password" id="password" formControlName="password" placeholder=""
+                                        class="form-control col-sm-12">
+                                    <p *ngIf="!credentialDataForm.get('credentialData.password').valid && credentialDataForm.get('credentialData.password').touched"
+                                        class="text-left col-sm-12">Please enter a valid password.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="errorMsg" class="errorMsg col-sm-12 mt-2" role="alert">
+                        <p class="p-0 m-0 py-2">{{errorMsg}}</p>
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <button class="btn btn-custom mt-4 w-auto" type="submit">Sign in</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

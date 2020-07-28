@@ -1,0 +1,172 @@
+<div class="row my-4">
+    <div class="col-sm-12">
+        <div class="card bg-light">
+            <div class="card-header bg-secondary">
+                <p class="text-light text-outline-dark">New Document</p>
+            </div>
+            <div class="card-body">
+                <form class="form-inline" [formGroup]="newDogForm" (ngSubmit)="newDogForm.valid && onSubmit()">
+                    <div class="w-100" formGroupName="dogData">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <h4 class="text-center">General Information</h4>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="id" class="col-sm-4 control-label">ID
+                                <span class="ml-1 text-danger">*</span>
+                            </label>
+
+                            <input type="text" id="id" formControlName="id" class="form-control col-sm-auto">
+                            <span class="col-sm-auto"><i
+                                    [ngClass]="!idVerified ? 'fas fa-times text-danger':'fas fa-check text-success'"></i></span>
+
+                            <button class="btn btn-system p-2 col-sm-12 col-md-auto" (click)="checkId()">Check
+                                ID</button>
+                            <button class="btn btn-system p-2 col-sm-12 col-md-auto" (click)="generateId()">Generate
+                                ID</button>
+
+                            <span *ngIf="!newDogForm.get('dogData.id').valid && newDogForm.get('dogData.id').touched"
+                                class="help-block">
+                                <span *ngIf="newDogForm.get('dogData.id').errors['required']">This field is
+                                    required!</span>
+                                <span
+                                    *ngIf="newDogForm.get('dogData.id').errors['minlength'] || newDogForm.get('dogData.id').errors['maxlength']">
+                                    Input must be between 10 and 50 characters. char count.
+                                    {{newDogForm.get('dogData.id').value.length}}
+                                </span>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="intakeDate" class="col-sm-4">Intake Date<span
+                                    class="ml-1 text-danger">*</span></label>
+                            <input type="date" id="date" formControlName="intakeDate" class="form-control col-sm-8">
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-4">Name<span class="ml-1 text-danger">*</span></label>
+                            <input type="text" id="name" formControlName="name" class="form-control col-sm-8">
+                        </div>
+                        <div class="form-group">
+                            <label for="age" class="col-sm-4">Age<span class="ml-1 text-danger">*</span></label>
+                            <input type="text" id="age" formControlName="age" class="form-control col-sm-8">
+                        </div>
+                        <div class="form-group">
+                            <label for="breed" class="col-sm-4">Breed<span class="ml-1 text-danger">*</span></label>
+                            <input type="text" id="breed" formControlName="breed" class="form-control col-sm-8">
+                        </div>
+                        <div class="form-group">
+                            <label for="birthdate" class="col-sm-4">Date of Birth<span
+                                    class="ml-1 text-danger">*</span></label>
+                            <input type="date" id="birthdate" formControlName="birthdate" class="form-control col-sm-8">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender" class="col-sm-4">Gender<span class="ml-1 text-danger">*</span></label>
+                            <select formControlName="gender" class="form-control col-sm-8" id="gender">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="type" class="col-sm-4">Type<span class="ml-1 text-danger">*</span></label>
+                            <select formControlName="type" class="form-control col-sm-8" id="type">
+                                <option value="dog">Dog</option>
+                                <!-- 
+                                <option value="cat">Cat</option>
+                                <option value="bird">Bird</option>
+                                <option value="reptile">Reptile</option>
+                                <option value="other">Other</option>
+                               -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">Notes<span class="ml-1 text-danger">*</span></label>
+                            <textarea name="notes" id="notes" cols="30" rows="5" formControlName="notes"
+                                class="form-control pl-2 col-sm-12"></textarea>
+                        </div>
+                        <div class="form-group mt-2">
+                            <div class="col-sm-12">
+                                <h4 class="text-center">Listing Information</h4>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="image" class="col-sm-4">Image URL<span class="ml-1 text-danger">*</span></label>
+                            <input type="text" id="image" formControlName="image" class="form-control col-sm-8">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description<span class="ml-1 text-danger">*</span></label>
+                            <textarea name="description" id="description" cols="30" rows="5"
+                                formControlName="description" class="form-control pl-2 col-sm-12"> </textarea>
+                            <span
+                                *ngIf="!newDogForm.get('dogData.description').valid && newDogForm.get('dogData.description').touched"
+                                class="help-block">
+                                <span *ngIf="newDogForm.get('dogData.description').errors['required']">This
+                                    field is
+                                    required!</span>
+                                <span
+                                    *ngIf="newDogForm.get('dogData.description').errors['minlength'] || newDogForm.get('dogData.description').errors['maxlength']">
+                                    Input must be between 15 and 255 characters. char count.
+                                    {{newDogForm.get('dogData.description').value.length}}
+                                </span>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="traits">Traits</label>
+                            <div class="row w-100 border rounded my-2 p-2">
+                                <div *ngFor="let trait of traits; let i = index">
+                                    <p class="col-sm-auto p-2 m-1 border rounded text-wrap">{{trait}}<i (click)="onRemoveTrait(i)" class="col-sm-auto fas fa-times"></i></p>                                    
+                                </div>
+                                <p *ngIf="traits.length < 1" class="text-center">No traits currently added.</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label for="newTrait" class="col-sm-4">Add Trait</label>
+                                <input #traitValue type="text" id="newTrait" formControlName="newTrait"
+                                    class="form-control col-sm-6">
+                                <button type="button" classs="btn border col-sm-auto"
+                                    (click)="onAddTrait(traitValue.value)"><span><i
+                                            class="fas fa-plus"></i></span></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="adoptionFee" class="col-sm-4">Adoption Fee<span
+                                    class="ml-1 text-danger">*</span></label>
+                            <input type="text" id="adoptionFee" formControlName="adoptionFee"
+                                class="form-control col-sm-8">
+                        </div>
+                        <div class="form-group">
+                            <label for="isFeatured" class="col-sm-4">Featured<span
+                                    class="ml-1 text-danger">*</span></label>
+                            <select formControlName="isFeatured" class="form-control col-sm-8" id="isFeatured">
+                                <option [ngValue]="true">Yes</option>
+                                <option [ngValue]="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hasMedicalNeeds" class="col-sm-4 text-left">Medical Needs<span
+                                    class="ml-1 text-danger co">*</span></label>
+                            <select formControlName="hasMedicalNeeds" class="form-control col-sm-8"
+                                id="hasMedicalNeeds">
+                                <option [ngValue]="true">Yes</option>
+                                <option [ngValue]="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="healthDesc">Known Health Issues<span class="ml-1 text-danger">*</span></label>
+                            <textarea name="healthDesc" id="healthDesc" cols="30" rows="5" formControlName="healthDesc"
+                                class="form-control pl-2 col-sm-12"></textarea>
+                        </div>
+                        <div class="form-group justify-content-center mt-3" aria-label="form controls">
+                            <a class="btn btn-custom w-25 mr-2" backButton>Go Back</a>
+                            <button class="btn btn-custom w-25" type="submit"
+                                [attr.disabled]="!newDogForm.valid ? 'disabled' : null">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

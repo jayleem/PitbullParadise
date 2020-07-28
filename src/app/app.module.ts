@@ -1,6 +1,7 @@
 import { BrowserModule, Title, Meta } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 //Angular Default Components
 //
@@ -19,11 +20,21 @@ import { DogListComponent } from './adoptables/dog-list/dog-list.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { DogAdoptionFormComponent } from './adoption/dog-adoption-form/dog-adoption-form.component';
 import { DonateComponent } from './donate/donate.component';
+import { AdminComponent } from './admin/admin.component';
+import { AdminListComponent } from './admin/admin-list/admin-list.component';
+import { AdminNewComponent } from './admin/admin-new/admin-new.component';
+import { AdminUpdateComponent } from './admin/admin-update/admin-update.component';
+import { AdminDetailsComponent } from './admin/admin-details/admin-details.component';
+import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
 import { DbMessageComponent } from './db-message/db-message.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 
 //Services
 //
 import { AdoptableService } from './shared/services/adoptable.service';
+import { DbMessageService } from './shared/services/db-message.service';
+import { AuthService } from './shared/services/auth.service';
+import { HttpInterceptorService } from './shared/services/http-interceptor.service';
 
 //Custom Pipes
 //
@@ -32,6 +43,7 @@ import { ToNumPipe } from './shared/pipes/to-num.pipe';
 //Angular Bootstrap
 //
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { AdminNavComponent } from './admin/admin-nav/admin-nav.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +59,15 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     DogAdoptionFormComponent,
     DonateComponent,
     ToNumPipe,
+    AdminComponent,
+    AdminListComponent,
+    AdminNewComponent,
+    AdminUpdateComponent,
+    AdminDetailsComponent,
+    AdminLoginComponent,
     DbMessageComponent,
+    AdminPanelComponent,
+    AdminNavComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +78,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule
   ],
   providers: [
-    AdoptableService, AuthService, DbMessageService, Title, Meta
+    AdoptableService, AuthService, DbMessageService, Title, Meta,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

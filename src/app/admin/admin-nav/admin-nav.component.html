@@ -1,0 +1,36 @@
+<div *ngIf="showNav" class="container-fluid">
+    <nav class="navbar navbar-expand-lg bg-light navbar-light py-2">
+        <div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse" id="collapsible">
+            <ul class="navbar-nav d-flex w-100 justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/panel" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Control Panel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/list" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Manage Adoptables</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/new" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Create Adoptable</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="signOut()" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Sign out <span><i
+                                class="fas fa-arrow-right"></i></span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="row d-sm-inline d-md-none">
+        <div class="col-sm-12 text-center p-0 pt-1">
+            <button class="navbar-toggler btn btn-block" type="button" (click)="isCollapsed = !isCollapsed"
+                aria-controls="navbarSupportedContent" [attr.aria-expanded]="!isCollapsed"
+                aria-label="Toggle navigation">
+                <span>
+                    <i [ngClass]="isCollapsed ? 'fas fa-arrow-down':'fas fa-arrow-up'"></i>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>

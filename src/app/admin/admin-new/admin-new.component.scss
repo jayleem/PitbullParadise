@@ -1,0 +1,26 @@
+p {
+    padding: 0;
+    margin: 0;
+}
+label {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+input,
+select,
+textarea {
+    margin: 4px 0px;
+}
+.form-inline {
+    label {
+        justify-content: start !important;
+    }
+}
+button {
+    margin: 2px !important;
+}
+i:hover {
+    cursor: pointer;
+}

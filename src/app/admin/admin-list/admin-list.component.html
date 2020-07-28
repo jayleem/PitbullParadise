@@ -1,0 +1,91 @@
+<div class="container-fluid">
+    <div class="row py-4">
+        <div class="col-sm-12">
+            <div class="card w-100 shadow-sm">
+                <div class="card-header">
+                    Filters
+                </div>
+                <div class="card-body">
+                    <div class="row mt-4">
+                        <div class="col-sm-10 input-group">
+                            <label for="currentId" class="px-2">Search</label>
+                            <input type="text" name="currentId" id="currentId" class="mr-2 form-control"
+                                placeholder="id, name, breed, gender, traits" [(ngModel)]="currentId"
+                                (input)="changeId($event.target.value)">
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-sm-12">
+                            <a class="btn border btn-sm m-1" (click)="applyFilters()">Apply
+                                Filters</a>
+                            <a class="btn border btn-sm m-1" (click)="clearFilters()">Clear
+                                Filters</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm 12 d-flex justify-content-center">
+            <div class="col-sm-auto">
+                <!-- if skip is equal to "0" disable the user from going back further -->
+                <button [disabled]="skip == '0'" class="btn btn-custom btn-sm" (click)=onPrev()>Prev</button>
+            </div>
+            <div class="col-sm-auto">
+                <!-- if the length of the documents array is less than limit then disable the user from going forward any further -->
+                <button [disabled]="(skip | toNum) >= maxDocs" class="btn btn-custom btn-sm"
+                    (click)=onNext()>Next</button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid px-2" *ngIf="dogs; else notShown">
+        <div *ngFor="let dog of dogs | slice: pageSize:pageSize+itemsPerPage; let i = index;"
+            class="row my-4 border dog-container shadow bg-white">
+            <div class="col-sm-12 p-0 m-0 mb-2 bg-secondary">
+                <p class="px-2 py-2 border-bottom text-light text-outline-dark">ID#: {{dog.id}}</p>
+            </div>
+            <div class="col-sm-3 text-center text-wrap">
+                <img class="img-thumbnail" src="{{dog.image}}" width="120px" height="120px" alt="photo of {{dog.name}}">
+            </div>
+            <div class="col-sm-3 text-center text-sm-left text-wrap">
+                <p>Name: {{dog.name}}</p>
+                <p>Age: {{formatAge(dog.age)}}</p>
+                <p>Gender: {{dog.gender}}</p>
+                <p>Breed: {{dog.breed}}</p>
+            </div>
+            <div class="col-sm-3 text-center text-sm-left text-wrap">
+                <p>Intake Date: {{dog.intakeDate | date:'MM/dd/yyyy'}}</p>
+                <p>Featured: {{dog.isFeatured}}</p>
+                <p>Special Needs: {{dog.hasMedicalNeeds}}</p>
+            </div>
+            <div class="col-sm-3 text-center">
+                <a class="col-sm-12 btn border my-2"
+                    routerLink="../details/{{dog.name | lowercase}}-{{dog.id}}">Details</a>
+                <a class="col-sm-12 btn border my-2"
+                    routerLink="../update/{{dog.name | lowercase}}-{{dog.id}}">Update</a>
+                <button class="col-sm-12 btn border my-2" (click)="onDelete(dog.id)">Delete</button>
+            </div>
+        </div>
+    </div>
+    <ng-template #notShown>
+       <div class="row vh-100 w-100 p-4">
+           <div class="col-sm-12 text-center p-4">
+               <h6>No results.</h6>
+           </div>
+       </div>
+    </ng-template>
+    <div class="row">
+        <div class="col-sm 12 d-flex justify-content-center">
+            <div class="col-sm-auto">
+                <!-- if skip is equal to "0" disable the user from going back further -->
+                <button [disabled]="skip == '0'" class="btn btn-custom btn-sm" (click)=onPrev()>Prev</button>
+            </div>
+            <div class="col-sm-auto">
+                <!-- if the length of the documents array is less than limit then disable the user from going forward any further -->
+                <button [disabled]="(skip | toNum) >= maxDocs" class="btn btn-custom btn-sm"
+                    (click)=onNext()>Next</button>
+            </div>
+        </div>
+    </div>
+</div>
