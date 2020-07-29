@@ -129,7 +129,7 @@ exports.generateTestDataAsync = async (req, res) => {
     let breedArr = ['American Pitbull Terrier', 'Staffordshire Bull Terrier', 'Pitbull X'];
     let mm = Math.floor(Math.random() * 12);
     let dd = Math.floor(Math.random() * 28);
-    let yy = Math.floor(Math.random() * 20) + 2000;
+    let yy = Math.floor(Math.random() * 20) + 2010; //2000-2020
     let genderArr = ['Male', 'Female'];
     let traitsArr = ['Kid Friendly', 'Cat Friendly', 'Dog Friendly'];
     let healthDesc = '';
@@ -194,7 +194,7 @@ exports.generateTestDataAsync = async (req, res) => {
 
                 //generate random intake date
                 //
-                let startDate = new Date(2010, 1, 1);
+                let startDate = new Date(2015, 1, 1);
                 let endDate = new Date();
                 let intakeDate = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime())).getTime();
 

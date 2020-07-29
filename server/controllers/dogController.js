@@ -1,33 +1,28 @@
-var mongoose = require('../models/adoptable');
+const Adoptable = require('../models/adoptable');
 const COLLECTION = 'adoptables';
 
 exports.getDogByIdAsync = async (req, res) => {
-    //query id param
+    //Query params
     //
+    let query = {};
     let id = req.params.id;
-
-    //Dynamic query object
-    //
-    query = {};
-
-    //id
-    //
     query['id'] = req.params.id;
-    mongoose.db.collection(COLLECTION).findOne(query, (err, docs) => {
-        if (err) {
-            res.json('Failed getting docs');
-        } else {
-            res.json(docs);
-        }
-    });
+
+    //MongoDB Query
+    //
+    const docRef = await Adoptable.findOne(query)
+        .then(docs => {
+            res.status(200).json(docs);
+        })
+        .catch(err => {
+            res.status(401).json('Failed getting docs');
+        });
 }
 
 exports.getDogsByQueryAsync = async (req, res) => {
-    //query object
+    //Query params
     //
     let query = {};
-    //query vars age, gender, and search terms
-    //
     let age = req.query.age;
     let gender = req.query.gender;
     let search = req.query.search;
@@ -61,48 +56,134 @@ exports.getDogsByQueryAsync = async (req, res) => {
     //
     if (typeof search === 'string' && search !== '' && search.length <= 255) {
         let regex = new RegExp(search, "i");
-        query = { $or: [{ id: regex }, { name: regex}, { gender: regex }, { breed: regex }, { traits: regex }] };
+        query = { $or: [{ id: regex }, { name: regex }, { gender: regex }, { breed: regex }, { traits: regex }] };
     };
-    const data = mongoose.db.collection(COLLECTION).find(query).sort({'intakeDate':-1});
-    data.toArray((err, docs) => {
-        if (err) {
-            res.json('Failed getting docs');
-        } else {
-            res.json(docs);
-        }
-    });
+
+    //MongoDB Query
+    //
+    const docRef = Adoptable.find(query).sort({ 'intakeDate': -1 })
+        .then(docs => {
+            res.status(200).json(docs);
+        })
+        .catch(err => {
+            res.status(401).json('Failed getting docs');
+        });
 };
 
 exports.getAllDogs = async (req, res) => {
+    //skip/limit vars 
+    //
     const skip = parseInt(req.query.skip);
     const limit = parseInt(req.query.limit);
-    const data = mongoose.db.collection(COLLECTION).find({}).skip(skip).limit(limit).sort({'intakeDate':-1});
-    data.toArray((err, docs) => {
-        if (err) {
-            res.json('Failed getting docs');
-        } else {
-            res.json(docs);
-        }
-    });
+
+    //MongoDB Query
+    //
+    const data = await Adoptable.find({}).skip(skip).limit(limit).sort({ 'intakeDate': -1 })
+        .then(docs => {
+            res.status(200).json(docs);
+        })
+        .catch(err => {
+            res.status(401).json('Failed getting docs')
+        });
 };
 
 exports.getFeaturedDogAsync = async (req, res) => {
 
-    //Query object
+    //Query vars
     //
     query = {};
-
-    //isFeatured
-    //
     query['isFeatured'] = true;
 
-    mongoose.db.collection(COLLECTION).findOne(query, (err, docs) => {
-        if (err) {
-            res.json('Failed getting docs');
-        } else {
-            res.json(docs);
-        }
-    });
+    //MongoDB Query
+    //
+    const docRef = await Adoptable.findOne(query)
+        .then(docs => {
+            res.status(200).json(docs);
+        })
+        .catch(err => {
+            res.status(401).json('Failed getting docs')
+        });
 }
+
+exports.getAnalyticsReportAsync = async (req, res) => {
+    //MongoDB Query used for analytics portion of admin panel
+    //
+    var report = null;
+    const countAdoptables = await Adoptable.find({}).countDocuments();
+    const countMales = await Adoptable.find({ 'gender': new RegExp('^' + 'male' + '$', "i") }).countDocuments();
+    const countFemales = await Adoptable.find({ 'gender': new RegExp('^' + 'female' + '$', "i") }).countDocuments();
+    const countPuppies = await Adoptable.find({ 'age': { $gt: 0, $lt: 2 } }).countDocuments();
+    const countAdults = await Adoptable.find({ 'age': { $gt: 2, $lt: 6 } }).countDocuments();
+    const countSeniors = await Adoptable.find({ 'age': { $gt: 6, $lt: 99 } }).countDocuments();
+
+    //breeds
+    //
+    let breedsArr = [];
+    const countDistinctBreeds = await Adoptable.aggregate([{ $group: { _id: "$breed", count: { "$sum": 1 } } }])
+        .then(docs => {
+            docs.forEach(doc => {
+                breedsArr.push([doc._id, doc.count]);
+            })
+        });
+    //types
+    //
+    let typesArr = [];
+    const countDistinctTypes = await Adoptable.aggregate([{ $group: { _id: { $toLower: "$type" }, count: { "$sum": 1 } } }])
+        .then(docs => {
+            docs.forEach(doc => {
+                typesArr.push([doc._id, doc.count]);
+            })
+        });
+    //intake dates
+    //
+    let intakeDatesArr = [];
+    const intakeDatesRef = await Adoptable.aggregate([
+        {
+            "$project": {
+                "intakeDate": { "$toDate": "$intakeDate" }
+            }
+        },
+        {
+            "$group": {
+                "_id": { "$dateToString": { "format": "%Y-%m", "date": "$intakeDate" } },
+                "count": { "$sum": 1 }
+            }
+        }
+    ])
+        .then(docs => {
+            docs.forEach(doc => {
+                intakeDatesArr.push([doc._id, doc.count]);
+            })
+        });
+    //sort the intakesDatesArr
+    //
+    intakeDatesArr.sort(([a], [b]) => {
+        const dateA = new Date(a).getTime();
+        const dateB = new Date(b).getTime();
+        return (dateA == dateB ? 0 : dateA > dateB ? 1 : -1);
+    })
+    //generate file report
+    //
+    report = {
+        adoptables: {
+            total: countAdoptables,
+            totalMales: countMales,
+            totalFemales: countFemales,
+            totalPuppies: countPuppies,
+            totalAdults: countAdults,
+            totalSeniors: countSeniors,
+            breeds: breedsArr,
+            types: typesArr,
+            intakeDates: intakeDatesArr
+        }
+    }
+    //console.log(report.adoptables);
+
+    if (report === null) {
+        res.status(400).json('Failed generating report.');
+    } else {
+        res.status(200).json(report);
+    }
+};
 
 exports.dogController;

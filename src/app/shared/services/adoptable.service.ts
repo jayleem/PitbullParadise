@@ -9,6 +9,19 @@ export class AdoptableService {
 
   constructor(private http: HttpClient) { }
 
+  getAnalytics(): Promise<any> {
+    return this.http.get('/api/dogs/analytics', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .toPromise()
+      .then(res => res as String)
+      .catch(err => {
+        return err;
+      })
+  }
+
   getDogs(skip:string, limit:string): Promise<any> {
     let param1 = skip;
     let param2 = limit;

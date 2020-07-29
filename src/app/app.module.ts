@@ -45,6 +45,9 @@ import { ToNumPipe } from './shared/pipes/to-num.pipe';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AdminNavComponent } from './admin/admin-nav/admin-nav.component';
 
+//Charts
+import { ChartsModule } from 'ng2-charts'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +78,8 @@ import { AdminNavComponent } from './admin/admin-nav/admin-nav.component';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartsModule
   ],
   providers: [
     AdoptableService, AuthService, DbMessageService, Title, Meta,
