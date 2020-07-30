@@ -198,3 +198,8 @@ Pitbull Paradise Brand Colors:
     border-bottom-right-radius: 1em;
     padding-bottom: 1em;
  }
+
+.custom-border-rounded {
+    box-shadow: 0 0 0 1px #dee2e6, 0 0 4px 0 #00000080 !important;
+    border-radius: 2px;
+}

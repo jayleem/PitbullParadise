@@ -1,1 +1,99 @@
-<p>donate works!</p>
+<app-header></app-header>
+<div class="main-content">
+    <div class="container-fluid custom-border-rounded py-2 mt-4">
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-12  d-flex justify-content-center">
+                <h2>{{month}} Donations</h2>
+            </div>
+        </div>
+        <hr class="p-0 m-0 my-2">
+        <!-- Custom Progress Bar-->
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-12 progress-bar-container  p-0 m-0">
+                <p class="progress-bar-custom p-0 m-0"
+                    [ngStyle]="{ width:(percentCompleted < 100 ? percentCompleted : 100) + '%', height:'60px' }"></p>
+                <p class='progress-label m-0'><span
+                        class="monthDonationsTotal">{{monthDonationsTotal | currency:'USD':'symbol':'1.0'}}</span>
+                    <span class="donationGoal"> raised of {{donationGoal | currency:'USD':'symbol':'1.0'}} goal</span>
+                </p>
+            </div>
+        </div>
+        <hr class="p-0 m-0 my-2">
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-12  text-center">
+                <h4>Top Donators:</h4>
+                <ul>
+                    <li *ngFor="let donor of topDonors | slice:0:10;" class="m-2">{{donor.name}}
+                        {{donor.amount | currency:'USD'}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-12  text-center">
+                <h4>Recent Donators:</h4>
+                <ul>
+                    <li *ngFor="let donor of thisMonthDonors | slice:0:10;" class="m-2">{{donor.name}}
+                        {{donor.amount | currency:'USD'}}</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="p-0 m-0 my-2">
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-10 ">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="text-center">Donation F.A.Q</h4>
+                        <p class="text-danger">Donations are non-refundable. Please do not make a donation unless you
+                            can
+                            afford to.</p>
+                        <p>
+                            Pitbull Paradise is a 501(c)(3) non-profit organization operated solely on donations from
+                            the
+                            community.
+                            Without the support from you we are not able to help these precious animals in need. Our
+                            rescue
+                            in
+                            Lakeland cares for more than 100 animals annually that have been surrendered by their
+                            owners,
+                            transferred
+                            from kill shelters, or from the streets.
+                        </p>
+                        <p>
+                            All donations go towards the operating costs of Pitbull Paradise this includes things such
+                            as
+                            but not limited to; utilities, rent, food, illnesses, injuries, medication and emergency
+                            veternarian vists.
+                            If you have any concers on how your donation is being used please contact us. You may also
+                            view
+                            our <a routerLink="/">annual financial reports</a> which are made public.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <h6>Ways to donate:</h6>
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <a class="btn" href="https://www.paypal.com" target="_blank"><img
+                                src="../../assets/a0a058baaeef16e88f6bd2ee36c03f6f.png" width="200" height="100"
+                                alt="Amazon Wishlist Redirect"></a>
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <a class="btn" href="https://www.amazon.com/gp/registry/wishlist" target="_blank"><img
+                                src="../../assets/c70e4006c6ceeecbf3de4290d96d8adc.png" width="200" height="100"
+                                alt="Amazon Wishlist Redirect"></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <h6 class="pt-2">Support us while shopping at Amazon!</h6>
+                        <a class="btn p-0" href="https://www.smile.amazon.com" target="_blank"><img
+                                src="../../assets/48cb6646c0d51ff61520e5ccba288c00.png" width="200" height="100"
+                                alt="Amazon Wishlist Redirect"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

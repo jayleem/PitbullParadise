@@ -1,0 +1,47 @@
+ul {
+    list-style: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+li {
+    text-align: center;
+}
+a:focus,a:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+.progress-bar-container {
+    background-color: #f6f8f9;
+}
+.progress-bar-custom {
+    background-image: linear-gradient(45deg, #4b8b7c 25%, #4b8b7c80 25%, #4b8b7c80 50%, #4b8b7c 50%, #4b8b7c 75%, #4b8b7c80 75%, #4b8b7c80 100%);
+    background-size: 28.28px 28.28px;
+    position: relative;
+    overflow: hidden;
+}
+.progress-label {
+    position: absolute;
+    text-align: center;
+    width:100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+}
+@media ALL and (max-width: 420px) {
+    .progress-label {
+        font-size: 1.5rem;
+    }
+}
+@media ALL and (max-width: 360px) {
+    .progress-label {
+        font-size: 1.25rem;
+    }
+}
+.monthDonationsTotal {
+    font-weight: 700;
+    color: #000;
+}
+.donationGoal {
+    color: #2b2c32;
+}

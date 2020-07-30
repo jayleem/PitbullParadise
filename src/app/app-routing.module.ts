@@ -15,11 +15,13 @@ import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { LoginGuard } from './shared/guards/login.guard';
+import { DonateComponent } from './donate/donate.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+  { path: 'donate', component: DonateComponent },
   {
     path: 'search',
     component: AdoptablesComponent,
