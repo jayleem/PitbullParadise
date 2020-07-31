@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-donate',
@@ -6,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./donate.component.scss']
 })
 export class DonateComponent implements OnInit {
+  //title and meta tag vars
+  //
+  private title: string = "Pitbull Paradise | Non-profit, No Kill Shelter, Florida Dog Rescues";
+  private metaDesc: string = "Pitbull Paradise | Offical Website - Click now to make a donation!";
+  private robots: string = "INDEX, NOFOLLOW"
+  private author: string = "github.com/jayleem"
   /*
   Notes:
   Currently this component is just using fake data which would be fetched from the API at a later date.
@@ -233,9 +240,18 @@ export class DonateComponent implements OnInit {
   //
   topDonors: any[];
 
-  constructor() { }
+  constructor(
+    private titleService: Title, 
+    private metaService: Meta,
+  ) { }
 
   ngOnInit(): void {
+    //set title and update meta tags
+    //
+    this.titleService.setTitle(this.title);
+    this.metaService.updateTag({ name: 'description', content: this.metaDesc });
+    this.metaService.updateTag({ name: 'robots', content: this.robots });
+    this.metaService.updateTag({ name: 'author', content: this.author });
     //Get the top 10 donors for now I just shallow copy the thisMonthDonors array.
     //
     this.topDonors = [...this.thisMonthDonors];

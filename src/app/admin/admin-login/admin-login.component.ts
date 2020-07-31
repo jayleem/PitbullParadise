@@ -19,8 +19,8 @@ export class AdminLoginComponent implements OnInit {
 
   //title and meta tag vars
   //
-  private title: string = "Pitbull Paradise | Login";
-  private metaDesc: string = "Pitbull Paradise | Login";
+  private title: string = "Pitbull Paradise | Admin Login";
+  private metaDesc: string = "Pitbull Paradise | Admin Login";
   private robots: string = "NOINDEX, NOFOLLOW"
   private author: string = "github.com/jayleem"
 

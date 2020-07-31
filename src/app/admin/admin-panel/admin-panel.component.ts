@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { DbMessageService } from 'src/app/shared/services/db-message.service';
 import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-admin-panel',
@@ -20,8 +21,15 @@ export class AdminPanelComponent implements OnInit {
   apiKey: string = "abcdef12345"
   report = null;
 
+  private title: string = "Pitbull Paradise | Admin Panel";
+  private metaDesc: string = "";
+  private robots: string = "NOINDEX, NOFOLLOW"
+  private author: string = "github.com/jayleem"
+
   constructor(
     private adoptablesService: AdoptableService,
+    private titleService: Title,
+    private metaService: Meta,
     private authService: AuthService,
     private dbMessageService: DbMessageService
   ) { }
@@ -29,6 +37,13 @@ export class AdminPanelComponent implements OnInit {
   ngOnInit(): void {
     this.dbTestConnection()
     this.adoptablesService.getAnalytics().then(res => this.report = res).then(() => this.updateCharts());
+
+    //set title and update meta tags
+    //
+    this.titleService.setTitle(this.title);
+    this.metaService.updateTag({ name: 'description', content: this.metaDesc });
+    this.metaService.updateTag({ name: 'robots', content: this.robots });
+    this.metaService.updateTag({ name: 'author', content: this.author });
   }
 
   dbTestConnection() {
@@ -194,9 +209,9 @@ export class AdminPanelComponent implements OnInit {
     //first pie chart containing data about total dogs and age
     //
     this.pieChartLabels = [
-      `Total, ${this.report.adoptables.total}`, 
-      `Puppies, ${this.report.adoptables.totalPuppies}`, 
-      `Adults, ${this.report.adoptables.totalAdults}`, 
+      `Total, ${this.report.adoptables.total}`,
+      `Puppies, ${this.report.adoptables.totalPuppies}`,
+      `Adults, ${this.report.adoptables.totalAdults}`,
       `Seniors, ${this.report.adoptables.totalSeniors}`];
     this.pieChartData = [this.report.adoptables.total, this.report.adoptables.totalPuppies, this.report.adoptables.totalAdults, this.report.adoptables.totalSeniors];
     //second pie chart containing breed data

@@ -35,7 +35,7 @@ export class AdminListComponent implements OnInit {
   //
   private title: string = "Pitbull Paradise | Non-profit, No Kill Shelter, Florida Dog Rescues";
   private metaDesc: string = "Pitbull Paradise | Offical Website - Click now to view our dogs available for adoption!";
-  private robots: string = "INDEX, NOFOLLOW"
+  private robots: string = "NOINDEX, NOFOLLOW"
   private author: string = "github.com/jayleem"
 
   //mongodb pagination these values are converted to integers server side
