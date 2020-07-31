@@ -69,13 +69,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6 text-left p-0">
-                                    <p class="card-text name">{{dog.name}}</p>
+                                    <p class="card-text name">{{dog.name}} <i [ngClass]="dog.gender == 'Male' ? 'fas fa-mars':'fas fa-venus'"></i></p>
                                     <p class="card-text text-muted">{{formatAge(dog.age)}}</p>
-                                </div>
-                                <div class="col-sm-6 text-right">
-                                    <p class="card-text">
-                                        <i [ngClass]="dog.gender == 'Male' ? 'fas fa-mars':'fas fa-venus'"></i>
-                                    </p>
                                 </div>
                             </div>
                             <div class="row">
