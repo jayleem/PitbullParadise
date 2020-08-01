@@ -26,8 +26,10 @@ import { AdminNewComponent } from './admin/admin-new/admin-new.component';
 import { AdminUpdateComponent } from './admin/admin-update/admin-update.component';
 import { AdminDetailsComponent } from './admin/admin-details/admin-details.component';
 import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
-import { DbMessageComponent } from './db-message/db-message.component';
+import { AdminNavComponent } from './admin/admin-nav/admin-nav.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { AnalyticsComponent } from './admin/analytics/analytics/analytics.component'
+import { DbMessageComponent } from './db-message/db-message.component';
 
 //Services
 //
@@ -43,10 +45,9 @@ import { ToNumPipe } from './shared/pipes/to-num.pipe';
 //Angular Bootstrap
 //
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { AdminNavComponent } from './admin/admin-nav/admin-nav.component';
 
 //Charts
-import { ChartsModule } from 'ng2-charts'
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { ChartsModule } from 'ng2-charts'
     AdminLoginComponent,
     DbMessageComponent,
     AdminPanelComponent,
-    AdminNavComponent
+    AdminNavComponent,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,

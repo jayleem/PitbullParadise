@@ -18,34 +18,9 @@
                     </div>
                     <h4 class="card-text">Analytics:</h4>
                     <hr class="w-100">
-                    <div *ngIf="report !== 'null'" class="container-fluid mb-2 py-2">
-                        <div class="row my-2 justify-content-between">
-                            <div class="col-sm-12 col-md-6 p-0 pr-md-2 mb-sm-3">
-                                <div class="chart col-sm-12 rounded py-4">
-                                    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels"
-                                        [chartType]="pieChartType" [options]="pieChartOptions"
-                                        [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend">
-                                    </canvas>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-6 mb-sm-2 p-0 pl-md-2">
-                                <div class="chart col-sm-12 rounded py-4">
-                                    <canvas baseChart [data]="pieChartData2" [labels]="pieChartLabels2"
-                                        [chartType]="pieChartType" [options]="pieChartOptions2"
-                                        [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend">
-                                    </canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row justify-content-middle">
-                            <div class="chart col-sm-12 rounded pt-2 pb-4">
-                                <canvas baseChart width="400" height="400" [datasets]="lineChartData"
-                                    [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
-                                    [legend]="lineChartLegend" [chartType]="lineChartType" [plugins]="lineChartPlugins">
-                                </canvas>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Start Analytics Component -->
+                    <app-analytics></app-analytics>
+                    <!-- End Analytics Component-->
                     <h4 class="card-text">Actions:</h4>
                     <hr class="w-100">
                     <div class="col-sm-auto">

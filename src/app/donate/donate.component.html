@@ -23,8 +23,9 @@
             <div class="col-sm-12  text-center">
                 <h4>Top Donators:</h4>
                 <ul>
-                    <li *ngFor="let donor of topDonors | slice:0:10;" class="m-2">{{donor.name}}
-                        {{donor.amount | currency:'USD'}}</li>
+                    <li *ngFor="let donor of donors | slice:0:10;" class="m-2">
+                        {{donor.name}} {{donor.amount | currency:'USD'}}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -32,8 +33,9 @@
             <div class="col-sm-12  text-center">
                 <h4>Recent Donators:</h4>
                 <ul>
-                    <li *ngFor="let donor of thisMonthDonors | slice:0:10;" class="m-2">{{donor.name}}
-                        {{donor.amount | currency:'USD'}}</li>
+                    <li *ngFor="let donor of thisMonthDonors | slice:0:10;" class="m-2">
+                        {{donor.name}} {{donor.amount | currency:'USD'}}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -43,9 +45,10 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h4 class="text-center">Donation F.A.Q</h4>
-                        <p class="text-danger">Donations are non-refundable. Please do not make a donation unless you
-                            can
-                            afford to.</p>
+                        <p class="text-danger">
+                            While Pitbull Paradise appreciates all donations, please note that all donations are non-refundable. You can also donate your time by
+                            <a routerLink="/donate">becoming a volunteer</a>.
+                        </p>
                         <p>
                             Pitbull Paradise is a 501(c)(3) non-profit organization operated solely on donations from
                             the
@@ -64,8 +67,7 @@
                             but not limited to; utilities, rent, food, illnesses, injuries, medication and emergency
                             veternarian vists.
                             If you have any concers on how your donation is being used please contact us. You may also
-                            view
-                            our <a routerLink="/">annual financial reports</a> which are made public.
+                            view our <a routerLink="/">annual financial reports</a> which are made available to the public.
                         </p>
                     </div>
                 </div>
