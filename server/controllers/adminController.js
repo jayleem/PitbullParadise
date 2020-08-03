@@ -60,6 +60,9 @@ exports.updateDogByIdAsync = async (req, res) => {
     //convert stringified JSON back to JSON object
     //
     const data = JSON.parse(req.query.data);
+
+    //update the document which contains the dogs id
+    //
     if (data) {
         const doc = await mongoose.db.collection(COLLECTION)
             .findOneAndUpdate(
@@ -93,6 +96,44 @@ exports.updateDogByIdAsync = async (req, res) => {
                     }
                 })
     }
+}
+
+exports.setFeaturedAsync = async (req, res) => {
+    let id = req.params.id;
+
+    //first promise update the document containing the dogs id passed as a paramater
+    //
+    const promise1 = await mongoose.db.collection(COLLECTION)
+        .findOneAndUpdate(
+            { 'id': id },
+            {
+                $set:
+                {
+                    isFeatured: true,
+                }
+            });
+
+    //second promise update documents not equal to the dogs id passed as a paramater
+    //
+    const promise2 = await mongoose.db.collection(COLLECTION)
+        .updateMany(
+            { 'id': { $ne: id } },
+            {
+                $set:
+                {
+                    isFeatured: false,
+                }
+            });
+
+    //promises array
+    //
+    Promise.all([promise1, promise2])
+        .then(() => {
+            res.status(200).json({ 'message': `Document with id ${id} was updated successfully`, type: 'success' });
+        })
+        .catch(err => {
+            res.status(200).json({ 'message': `No document with id ${id} was found`, type: 'error' });
+        });
 }
 
 

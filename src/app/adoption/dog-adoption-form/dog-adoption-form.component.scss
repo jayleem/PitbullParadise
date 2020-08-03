@@ -1,4 +1,5 @@
 form {
+    width: 100%;
     max-width: 1200px !important;
     margin: 0 auto;
 }
@@ -40,4 +41,7 @@ input[type='text'].form-control {
 
 hr {
     border-top: 2px dashed silver;
+}
+.required {
+    font-size: 1.5em;
 }

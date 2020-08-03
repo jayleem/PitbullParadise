@@ -138,6 +138,22 @@ export class AdoptableService {
       })
   }
 
+  setFeaturedDogById(id:string ): Promise<any> {
+    
+    return this.http.post(`/api/admin/setFeatured/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .toPromise()
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        return err;
+      })
+  }
+
   purgeDB(): Promise<any> {
 
     return this.http.delete(`/api/admin/delete`, {

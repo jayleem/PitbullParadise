@@ -8,34 +8,37 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-3 input-group">
-                                <label for="currentAge">Age:</label>
-                                <select name="currentAge" id="currentAge" class="ml-2 mr-2 form-control"
+                            <div class="col-sm-6 input-group mb-3">
+                                <label class="control-label col-sm-auto" for="currentAge">Age:</label>
+                                <select name="currentAge" id="currentAge" class="col-sm-auto ml-2 mr-2 form-control"
                                     [(ngModel)]="currentAge" (change)="changeAge($event.target.value)">
                                     <option value="puppy">Puppy</option>
                                     <option value="adult">Adult</option>
                                     <option value="senior">Senior</option>
                                 </select>
                             </div>
-
-                            <div class="col-sm-3 input-group">
-                                <label for="currentGender">Gender:</label>
-                                <select name="currentGender" id="currentGender" class="ml-2 mr-2 form-control"
-                                    [(ngModel)]="currentGender" (change)="changeGender($event.target.value)">
+                            <div class="col-sm-6 input-group mb-3">
+                                <label class="control-label col-sm-auto" for="currentGender">Gender:</label>
+                                <select name="currentGender" id="currentGender"
+                                    class="col-sm-auto ml-2 mr-2 form-control" [(ngModel)]="currentGender"
+                                    (change)="changeGender($event.target.value)">
                                     <option value="female">Female</option>
                                     <option value="male">Male</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="row mt-4">
-                            <div class="col-sm-10 input-group">
-                                <label for="currentId">Search</label>
-                                <input type="text" name="currentId" id="currentId" class="mr-2 form-control"
-                                    [(ngModel)]="currentId" (input)="changeId($event.target.value)"
-                                    placeholder="id, name, breed, gender, traits">
+                        <div class="col-sm-12 px-4 input-group mb-3">
+                            <input (keydown.enter)="applyFilters()" id="search" name="search" class="form-control"
+                                placeholder="Search..." type="text" [(ngModel)]="currentSearchTerms"
+                                (input)="changeSearchTerms($event.target.value)">
+                            <div class="input-group-append">
+                                <button (click)="applyFilters()"
+                                    class="input-group-text bg-gray d-flex align-items-center">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="row mt-4">
+                        <div class="row">
                             <div class="col-sm-12">
                                 <a class="btn border btn-sm m-1" (click)="applyFilters()">Apply
                                     Filters</a>
@@ -55,7 +58,8 @@
                 </div>
                 <div class="col-sm-auto">
                     <!-- if the length of the documents array is less than limit then disable the user from going forward any further -->
-                    <button [disabled]="(skip | toNum) >= maxDocs" class="btn btn-custom btn-sm" (click)=onNext()>Next</button>
+                    <button [disabled]="(skip | toNum) >= maxDocs" class="btn btn-custom btn-sm"
+                        (click)=onNext()>Next</button>
                 </div>
             </div>
         </div>
@@ -69,7 +73,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6 text-left p-0">
-                                    <p class="card-text name">{{dog.name}} <i [ngClass]="dog.gender == 'Male' ? 'fas fa-mars':'fas fa-venus'"></i></p>
+                                    <p class="card-text name">{{dog.name}} <i
+                                            [ngClass]="dog.gender == 'Male' ? 'fas fa-mars':'fas fa-venus'"></i></p>
                                     <p class="card-text text-muted">{{formatAge(dog.age)}}</p>
                                 </div>
                             </div>
@@ -97,7 +102,8 @@
                 </div>
                 <div class="col-sm-auto">
                     <!-- if the length of the documents array is less than limit then disable the user from going forward any further -->
-                    <button [disabled]="(skip | toNum) >= maxDocs" class="btn btn-custom btn-sm" (click)=onNext()>Next</button>
+                    <button [disabled]="(skip | toNum) >= maxDocs" class="btn btn-custom btn-sm"
+                        (click)=onNext()>Next</button>
                 </div>
             </div>
         </div>

@@ -10,23 +10,31 @@ p {
     margin: 0;
 }
 
-.dog-container {
-    opacity: .8 !important;
-    border: 2px solid #4b8b7c !important;
-    img {
-        filter: grayscale(100%);
-    }
-}
-
-.dog-container:hover {
-    opacity: 1.0 !important;
-    border: 2px solid #4b8b7c !important;
-    img {
-        filter: grayscale(0%);
-    }
-}
 
 a:hover,
 button:hover {
-    box-shadow: 0 0 0 2px #4b8b7c !important;
+    box-shadow: 0 0 0 2px #4b8b7c;
+}
+
+.dog-container {
+    opacity: .8;
+    border: 2px solid #4b8b7c;
+    img {
+        filter: grayscale(100%);
+    }
+    a,button {
+        background-color: #4b8b7c !important;
+        box-shadow: 0 0 0 2px #9ac8b3;
+        color: #eee;
+    }
+    a:hover,button:hover {
+        box-shadow: 0 0 0 2px #4b8b7c;
+    }
+}
+                
+.dog-container:hover {
+    opacity: 1.0;
+    img {
+        filter: grayscale(0%);
+    }
 }

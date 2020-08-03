@@ -1,20 +1,43 @@
 <div class="container-fluid">
-    <div class="row py-4">
+    <div class="row filter py-4">
         <div class="col-sm-12">
             <div class="card w-100 shadow-sm">
                 <div class="card-header">
                     Filters
                 </div>
                 <div class="card-body">
-                    <div class="row mt-4">
-                        <div class="col-sm-10 input-group">
-                            <label for="currentId" class="px-2">Search</label>
-                            <input type="text" name="currentId" id="currentId" class="mr-2 form-control"
-                                placeholder="id, name, breed, gender, traits" [(ngModel)]="currentId"
-                                (input)="changeId($event.target.value)">
+                    <div class="row">
+                        <div class="col-sm-6 input-group mb-3">
+                            <label class="control-label col-sm-auto" for="currentAge">Age:</label>
+                            <select name="currentAge" id="currentAge" class="col-sm-auto ml-2 mr-2 form-control"
+                                [(ngModel)]="currentAge" (change)="changeAge($event.target.value)">
+                                <option value="puppy">Puppy</option>
+                                <option value="adult">Adult</option>
+                                <option value="senior">Senior</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 input-group mb-3">
+                            <label class="control-label col-sm-auto" for="currentGender">Gender:</label>
+                            <select name="currentGender" id="currentGender"
+                                class="col-sm-auto ml-2 mr-2 form-control" [(ngModel)]="currentGender"
+                                (change)="changeGender($event.target.value)">
+                                <option value="female">Female</option>
+                                <option value="male">Male</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="col-sm-12 px-4 input-group mb-3">
+                        <input (keydown.enter)="applyFilters()" id="search" name="search" class="form-control"
+                            placeholder="Search..." type="text" [(ngModel)]="currentSearchTerms"
+                            (input)="changeSearchTerms($event.target.value)">
+                        <div class="input-group-append">
+                            <button (click)="applyFilters()"
+                                class="input-group-text bg-gray d-flex align-items-center">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-12">
                             <a class="btn border btn-sm m-1" (click)="applyFilters()">Apply
                                 Filters</a>
@@ -59,12 +82,13 @@
                 <p>Featured: {{dog.isFeatured}}</p>
                 <p>Special Needs: {{dog.hasMedicalNeeds}}</p>
             </div>
-            <div class="col-sm-3 text-center">
+            <div class="col-sm-3 text-center pb-2">
                 <a class="col-sm-12 btn border my-2"
                     routerLink="../details/{{dog.name | lowercase}}-{{dog.id}}">Details</a>
                 <a class="col-sm-12 btn border my-2"
                     routerLink="../update/{{dog.name | lowercase}}-{{dog.id}}">Update</a>
                 <button class="col-sm-12 btn border my-2" (click)="onDelete(dog.id)">Delete</button>
+                <button class="col-sm-12 btn border my-2" (click)="onSetFeatured(dog.id)">Set Featured</button>
             </div>
         </div>
     </div>

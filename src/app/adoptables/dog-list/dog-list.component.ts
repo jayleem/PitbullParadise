@@ -15,9 +15,9 @@ export class DogListComponent implements OnInit {
   public id;
 
   //table filter vars
-  public currentAge; //default age
-  public currentGender; //default gender
-  public currentId; //default id
+  public currentAge: string; //default age
+  public currentGender: string; //default gender
+  public currentSearchTerms: string; //default id
   //pagination vars
   //
   public currentPage = 1;
@@ -77,13 +77,13 @@ export class DogListComponent implements OnInit {
     this.currentGender = change;
   }
 
-  changeId(change: string) {
-    this.currentId = change;
+  changeSearchTerms(change: string) {
+    this.currentSearchTerms = change;
   }
 
   //applyFilters
   applyFilters() {
-    this.adoptablesService.getDogsQuery(this.currentAge, this.currentGender, this.currentId)
+    this.adoptablesService.getDogsQuery(this.currentAge, this.currentGender, this.currentSearchTerms)
       .then(res => {
         if (res.length > 0) {
           this.dogs = res;
@@ -101,7 +101,7 @@ export class DogListComponent implements OnInit {
     //
     this.currentAge = null;
     this.currentGender = null;
-    this.currentId = null;
+    this.changeSearchTerms = null;
     //
     //reset pagination and dogs documents array
     this.skip = "0";

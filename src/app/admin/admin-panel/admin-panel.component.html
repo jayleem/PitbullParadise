@@ -18,6 +18,13 @@
                     </div>
                     <h4 class="card-text">Analytics:</h4>
                     <hr class="w-100">
+                    <div *ngIf="featuredDog; else notShown" class="col-sm-12 mb-3">
+                        <h6>Dog of the Month: <a routerLink="../details/{{featuredDog.name}}-{{featuredDog.id}}">{{featuredDog.id}}</a></h6>
+                    </div>
+                    <ng-template #notShown class="col-sm-12 mb-3">
+                        <p>No dog is featured this month, select a dog to be featured <a
+                                routerLink='admin/list'>here.</a></p>
+                    </ng-template>
                     <!-- Start Analytics Component -->
                     <app-analytics></app-analytics>
                     <!-- End Analytics Component-->

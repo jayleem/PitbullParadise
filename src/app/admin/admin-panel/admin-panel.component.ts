@@ -10,14 +10,15 @@ import { Title, Meta } from '@angular/platform-browser';
   styleUrls: ['./admin-panel.component.scss']
 })
 export class AdminPanelComponent implements OnInit {
-  delay: any;
-  purging: boolean = false;
-  dbStatus: boolean = false;
+  public delay: any;
+  public purging: boolean = false;
+  public dbStatus: boolean = false;
+  public featuredDog: any;
   //TO-DO
   //get server addr and api key from enviorment variables
-  serverAddr: string = "http://localhost:3000/"
-  apiKey: string = "abcdef12345"
-  report = null;
+  public serverAddr: string = "http://localhost:3000/"
+  public apiKey: string = "abcdef12345"
+  public report = null;
 
   private title: string = "Pitbull Paradise | Admin Panel";
   private metaDesc: string = "";
@@ -46,14 +47,16 @@ export class AdminPanelComponent implements OnInit {
   dbTestConnection() {
     this.dbStatus = false;//reset dbstatus var
     setTimeout(() => {
-      this.adoptablesService.getDogs("0", "1")
+      this.adoptablesService.getFeaturedDogs()
         .then(res => {
           if (res) {
             //server responded
             //
+            this.featuredDog = res;
             this.dbStatus = true;
           } else {
             //server didn't respond
+            this.featuredDog = null;
             this.dbStatus = false;
           }
         })

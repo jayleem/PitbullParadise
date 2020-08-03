@@ -49,6 +49,15 @@ img {
 .filter {
     a:hover,
     button:hover {
-        box-shadow: 0 0 0 2px #4b8b7c !important;
+        box-shadow: 0 0 0 2px #4b8b7c;
     }
+}
+
+.input-group-addon {
+    border: 0 !important;
+    border-left: 0 !important;
+    border-top: 1px solid #ccc !important;
+    border-bottom: 1px solid #ccc !important;
+    border-right: 1px solid #ccc !important;
+    border-radius: 2px !important;
 }

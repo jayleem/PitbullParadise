@@ -15,6 +15,7 @@ router.post('/api/admin/login', [authController.login]);
 router.post('/api/admin/test/:count', [authController.verifyToken, adminController.generateTestDataAsync]);
 router.post('/api/admin/new', [authController.verifyToken, adminController.createDogAsync]);
 router.post('/api/admin/update/', [authController.verifyToken, adminController.updateDogByIdAsync]);
+router.post('/api/admin/setFeatured/:id', [authController.verifyToken, adminController.setFeaturedAsync]);
 router.delete('/api/admin/delete', [authController.verifyToken, adminController.deleteAllDogAsync]);
 router.delete('/api/admin/delete/:id', [authController.verifyToken, adminController.deleteDogByIdAsync]);
 //unprotected API routes

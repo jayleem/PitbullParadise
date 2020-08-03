@@ -18,7 +18,7 @@ export class AdminListComponent implements OnInit {
   //table filter vars
   public currentAge; //default age
   public currentGender; //default gender
-  public currentId; //default id
+  public currentSearchTerms; //default id
   //pagination vars
   //
   public currentPage = 1;
@@ -83,13 +83,14 @@ export class AdminListComponent implements OnInit {
     this.currentGender = change;
   }
 
-  changeId(change: string) {
-    this.currentId = change;
+  changeSearchTerms(change: string) {
+    this.currentSearchTerms = change;
+    this.applyFilters();
   }
 
   //applyFilters
   applyFilters() {
-    this.adoptablesService.getDogsQuery(this.currentAge, this.currentGender, this.currentId)
+    this.adoptablesService.getDogsQuery(this.currentAge, this.currentGender, this.currentSearchTerms)
       .then(res => {
         if (res.length > 0) {
           this.dogs = res;
@@ -107,7 +108,7 @@ export class AdminListComponent implements OnInit {
     //
     this.currentAge = null;
     this.currentGender = null;
-    this.currentId = null;
+    this.currentSearchTerms = null;
     //
     //reset pagination and dogs documents array
     this.skip = "0";
@@ -160,5 +161,16 @@ export class AdminListComponent implements OnInit {
     .catch(err => {
       console.log(err);
     })
+  }
+
+  onSetFeatured(value: any) {
+    this.adoptablesService
+    .setFeaturedDogById(value)
+    .then(res => {
+     this.dbMessageService.setMessage(res.message, res.type);
+    })
+    .catch(err => {
+      console.log(err);
+    })  
   }
 }
