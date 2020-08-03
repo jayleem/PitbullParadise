@@ -45,11 +45,11 @@ export class AdminListComponent implements OnInit {
   public maxDocs: number = 0;
 
   constructor(
-    private adoptablesService: AdoptableService, 
-    private titleService: Title, 
+    private adoptablesService: AdoptableService,
+    private titleService: Title,
     private metaService: Meta,
     private dbMessageService: DbMessageService
-    ) { }
+  ) { }
 
   ngOnInit() {
     //get dogs
@@ -63,16 +63,40 @@ export class AdminListComponent implements OnInit {
     this.metaService.updateTag({ name: 'author', content: this.author });
   }
 
+  ngOnDestroy() {
+    this.isPolling = false;//should stop polling and avoid any memory leak issues
+  }
+
+  /*
+    *********Currently polling is only implemented in the admin-list component for testing purposes*********
+    I've never used MongoDB for real time data and this may not be the best solution. I most likely will implement a better solution
+    using web sockets and socket.io, however the current iteration of getting real time data using polling seems to work fine.
+  */
+  private isPolling = true;
+  private pollingInterval = 1000;//default polling interval is 1000ms
   getDogs() {
-    this.adoptablesService.getDogs("0","0")
-    .then(res => {
-      this.maxDocs = res.length - parseInt(this.limit);
-    })
-    this.adoptablesService.getDogs(this.skip, this.limit)
-      .then(res => {
-        this.dogs = res;
-      })
-      .catch(err => console.log(err))
+    if (this.isPolling) {
+      //console.log('polling interval: ', this.pollingInterval);
+      setTimeout(() => {
+        //get document count
+        //
+        this.adoptablesService.getDocCount()
+          .then(count => {
+            this.maxDocs = parseInt(count) - parseInt(this.limit);
+          })
+          .then(() => {
+            //get documents
+            //
+            this.adoptablesService.getDogs(this.skip, this.limit)
+              .then(docs => {
+                this.dogs = docs;
+              })
+              .catch(err => console.log(err))
+          });
+        this.getDogs(); //prefer doing this over a while loop 
+      }, this.pollingInterval);
+    }
+    this.pollingInterval = 3000;//after intital increase polling interval to 3000ms for better performance
   }
 
   changeAge(change: string) {
@@ -151,26 +175,26 @@ export class AdminListComponent implements OnInit {
     }
     return results;
   }
-  
+
   onDelete(value: any) {
     this.adoptablesService
-    .deleteDogByID(value)
-    .then(res => {
-     this.dbMessageService.setMessage(res.message, res.type);
-    })
-    .catch(err => {
-      console.log(err);
-    })
+      .deleteDogByID(value)
+      .then(res => {
+        this.dbMessageService.setMessage(res.message, res.type);
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   onSetFeatured(value: any) {
     this.adoptablesService
-    .setFeaturedDogById(value)
-    .then(res => {
-     this.dbMessageService.setMessage(res.message, res.type);
-    })
-    .catch(err => {
-      console.log(err);
-    })  
+      .setFeaturedDogById(value)
+      .then(res => {
+        this.dbMessageService.setMessage(res.message, res.type);
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 }

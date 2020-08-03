@@ -186,4 +186,16 @@ export class AdoptableService {
       })
   }
   
+  getDocCount(): Promise<any> {
+    return this.http.get('/api/dogs/count', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .toPromise()
+      .then(res => res as String,)
+      .catch(err => {
+        return err;
+      })
+  }
 }

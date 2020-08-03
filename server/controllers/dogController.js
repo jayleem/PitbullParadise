@@ -105,6 +105,11 @@ exports.getFeaturedDogAsync = async (req, res) => {
         });
 }
 
+exports.getDocCountAsync = async(req,res) => {
+    const docCount = await Adoptable.find({}).countDocuments();
+    res.status(200).json(docCount);
+}
+
 exports.getAnalyticsReportAsync = async (req, res) => {
     //MongoDB Query used for analytics portion of admin panel
     //

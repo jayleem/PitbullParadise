@@ -21,6 +21,7 @@ router.delete('/api/admin/delete/:id', [authController.verifyToken, adminControl
 //unprotected API routes
 //
 router.get('/api/dogs', [dogController.getAllDogs]);
+router.get('/api/dogs/count', [dogController.getDocCountAsync]);
 router.get('/api/dogs/featured', [dogController.getFeaturedDogAsync]);
 router.get('/api/dogs/id/:id', [dogController.getDogByIdAsync]);
 router.get('/api/dogs/query', [dogController.getDogsByQueryAsync]);
