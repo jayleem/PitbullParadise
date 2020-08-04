@@ -20,7 +20,7 @@ router.delete('/api/admin/delete', [authController.verifyToken, adminController.
 router.delete('/api/admin/delete/:id', [authController.verifyToken, adminController.deleteDogByIdAsync]);
 //unprotected API routes
 //
-router.get('/api/dogs', [dogController.getAllDogs]);
+router.get('/api/dogs', [dogController.getAllDogsAsync]);
 router.get('/api/dogs/count', [dogController.getDocCountAsync]);
 router.get('/api/dogs/featured', [dogController.getFeaturedDogAsync]);
 router.get('/api/dogs/id/:id', [dogController.getDogByIdAsync]);

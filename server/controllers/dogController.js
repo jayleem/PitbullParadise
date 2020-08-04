@@ -70,7 +70,7 @@ exports.getDogsByQueryAsync = async (req, res) => {
         });
 };
 
-exports.getAllDogs = async (req, res) => {
+exports.getAllDogsAsync = async (req, res) => {
     //skip/limit vars 
     //
     const skip = parseInt(req.query.skip);

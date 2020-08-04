@@ -1,5 +1,9 @@
-import { BrowserModule, Title, Meta } from '@angular/platform-browser';
+//socket.io configuration
+import { SocketIoModule, SocketIoConfig } from '@hreimer/ngx-socket-io';
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+
 import { NgModule } from '@angular/core';
+import { BrowserModule, Title, Meta } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -81,7 +85,8 @@ import { ChartsModule } from 'ng2-charts';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ChartsModule
+    ChartsModule,
+    SocketIoModule.forRoot(config)//socket.io
   ],
   providers: [
     AdoptableService, AuthService, DbMessageService, Title, Meta,
