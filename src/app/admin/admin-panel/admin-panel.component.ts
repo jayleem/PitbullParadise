@@ -3,6 +3,7 @@ import { AdoptableService } from 'src/app/shared/services/adoptable.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { DbMessageService } from 'src/app/shared/services/db-message.service';
 import { Title, Meta } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-panel',
@@ -25,13 +26,32 @@ export class AdminPanelComponent implements OnInit {
   private robots: string = "NOINDEX, NOFOLLOW"
   private author: string = "github.com/jayleem"
 
+  private subscriptions: Subscription[] = [];
   constructor(
     private adoptablesService: AdoptableService,
     private titleService: Title,
     private metaService: Meta,
     private authService: AuthService,
     private dbMessageService: DbMessageService
-  ) { }
+  ) {
+    this.subscriptions.push(
+      this.adoptablesService
+        .getChanges()
+        .subscribe(value => {
+          if (!value) {
+            //no db changes
+            //
+            this.adoptablesService.getFeaturedDogs().then((res) => {
+              this.featuredDog = res;
+              return this.featuredDog;
+            })
+          } else {
+            //db changes
+            //
+          }
+        })
+    );
+  }
 
   ngOnInit(): void {
     this.dbTestConnection()
@@ -44,25 +64,24 @@ export class AdminPanelComponent implements OnInit {
     this.metaService.updateTag({ name: 'author', content: this.author });
   }
 
+  ngOnDestroy() {
+    //unsubscribe all subscriptions
+    //
+    for (const subscription in this.subscriptions) {
+      this.subscriptions[subscription].unsubscribe();
+    }
+  }
+
   dbTestConnection() {
-    this.dbStatus = false;//reset dbstatus var
     setTimeout(() => {
-      this.adoptablesService.getFeaturedDogs()
-        .then(res => {
-          if (res) {
-            //server responded
-            //
-            this.featuredDog = res;
-            this.dbStatus = true;
-          } else {
-            //server didn't respond
-            this.featuredDog = null;
-            this.dbStatus = false;
-          }
-        })
-        .catch(err => {
+      this.adoptablesService.isConnected().then(res => {
+        if (res) {
+          this.dbStatus = true;
+        }
+        else {
           this.dbStatus = false;
-        })
+        }
+      });
     }, 1000);
   }
 

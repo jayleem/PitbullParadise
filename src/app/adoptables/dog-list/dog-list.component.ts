@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdoptableService } from 'src/app/shared/services/adoptable.service';
 import { Adoptable } from 'src/app/models/adoptables';
 import { Title, Meta } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dog-list',
@@ -43,12 +44,34 @@ export class DogListComponent implements OnInit {
   public limit: string = "24";
   public maxDocs: number = 0;
 
-  constructor(private adoptablesService: AdoptableService, private titleService: Title, private metaService: Meta) { }
-
-  ngOnInit() {
-    //get dogs
+  private subscriptions: Subscription[] = [];
+  constructor(
+    private adoptablesService: AdoptableService,
+    private titleService: Title,
+    private metaService: Meta,
+  ) {
+    //initial document fetch
     //
     this.getDogs();
+    //real time data subscription
+    //
+    this.subscriptions.push(
+      this.adoptablesService.getChanges().subscribe(value => {
+        if (value) {
+          //db changes
+          //
+          this.getDogs();
+          //if filters were applied during an update event then reapply them
+          //
+          if (this.currentAge != null || this.currentGender != null || this.currentSearchTerms != null) {
+            this.applyFilters();
+          }
+        }
+      })
+    );
+  }
+
+  ngOnInit() {
     //set title and update meta tags
     //
     this.titleService.setTitle(this.title);
@@ -58,10 +81,10 @@ export class DogListComponent implements OnInit {
   }
 
   getDogs() {
-    this.adoptablesService.getDogs("0","0")
-    .then(res => {
-      this.maxDocs = res.length - parseInt(this.limit);
-    })
+    this.adoptablesService.getDogs("0", "0")
+      .then(res => {
+        this.maxDocs = res.length - parseInt(this.limit);
+      })
     this.adoptablesService.getDogs(this.skip, this.limit)
       .then(res => {
         this.dogs = res;
@@ -80,7 +103,6 @@ export class DogListComponent implements OnInit {
   changeSearchTerms(change: string) {
     this.currentSearchTerms = change;
   }
-
   //applyFilters
   applyFilters() {
     this.adoptablesService.getDogsQuery(this.currentAge, this.currentGender, this.currentSearchTerms)
@@ -88,7 +110,7 @@ export class DogListComponent implements OnInit {
         if (res.length > 0) {
           this.dogs = res;
         } else {
-          this.dogs = [];
+          this.dogs = null;
         }
       })
       .catch(err => console.log(err))

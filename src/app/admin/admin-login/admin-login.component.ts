@@ -49,16 +49,14 @@ export class AdminLoginComponent implements OnInit {
 
     this.authService.signIn(username, password)
       .then(res => {
-        //logged in
-        console.log(res);
         if (res) {
           this.router.navigate(['/admin/panel']);
         } else {
-          this.errorMsg = 'Invalid user or password.'
+          this.errorMsg = 'Invalid username or password.'
         }
       })
       .catch(err => {
-        console.log(err)
+        this.errorMsg = 'Invalid username or password.'
       })
   }
 }

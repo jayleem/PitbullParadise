@@ -3,6 +3,7 @@ import { AdoptableService } from 'src/app/shared/services/adoptable.service';
 import { Title, Meta } from '@angular/platform-browser';
 import { Adoptable } from 'src/app/models/adoptables';
 import { DbMessageService } from 'src/app/shared/services/db-message.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-list',
@@ -33,8 +34,8 @@ export class AdminListComponent implements OnInit {
 
   //title and meta tag vars
   //
-  private title: string = "Pitbull Paradise | Non-profit, No Kill Shelter, Florida Dog Rescues";
-  private metaDesc: string = "Pitbull Paradise | Offical Website - Click now to view our dogs available for adoption!";
+  private title: string = "Pitbull Paradise | Manage Adoptables";
+  private metaDesc: string = "";
   private robots: string = "NOINDEX, NOFOLLOW"
   private author: string = "github.com/jayleem"
 
@@ -44,17 +45,35 @@ export class AdminListComponent implements OnInit {
   public limit: string = "24";
   public maxDocs: number = 0;
 
+  private subscriptions: Subscription[] = [];
   constructor(
     private adoptablesService: AdoptableService,
     private titleService: Title,
     private metaService: Meta,
     private dbMessageService: DbMessageService
-  ) { }
-
-  ngOnInit() {
-    //get dogs
+  ) {
+    //initial document fetch
     //
     this.getDogs();
+    //real time data subscription
+    //
+    this.subscriptions.push(
+      this.adoptablesService.getChanges().subscribe(value => {
+          if (value) {
+            //db changes
+            //
+            this.getDogs();
+            //if filters were applied during an update event then reapply them
+            //
+            if(this.currentAge != null || this.currentGender != null || this.currentSearchTerms != null) {
+              this.applyFilters();
+            }
+          }
+        })
+    );
+  }
+
+  ngOnInit() {
     //set title and update meta tags
     //
     this.titleService.setTitle(this.title);
@@ -64,40 +83,19 @@ export class AdminListComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.isPolling = false;//should stop polling and avoid any memory leak issues
+    //unsubscribe all subscriptions
+    //
+    for (const subscription in this.subscriptions) {
+      this.subscriptions[subscription].unsubscribe();
+    }
   }
 
-  /*
-    *********Currently polling is only implemented in the admin-list component for testing purposes*********
-    I've never used MongoDB for real time data and this may not be the best solution. I most likely will implement a better solution
-    using web sockets and socket.io, however the current iteration of getting real time data using polling seems to work fine.
-  */
-  private isPolling = true;
-  private pollingInterval = 1000;//default polling interval is 1000ms
   getDogs() {
-    if (this.isPolling) {
-      //console.log('polling interval: ', this.pollingInterval);
-      setTimeout(() => {
-        //get document count
-        //
-        this.adoptablesService.getDocCount()
-          .then(count => {
-            this.maxDocs = parseInt(count) - parseInt(this.limit);
-          })
-          .then(() => {
-            //get documents
-            //
-            this.adoptablesService.getDogs(this.skip, this.limit)
-              .then(docs => {
-                this.dogs = docs;
-              })
-              .catch(err => console.log(err))
-          });
-        this.getDogs(); //prefer doing this over a while loop 
-      }, this.pollingInterval);
-    }
-    this.pollingInterval = 3000;//after intital increase polling interval to 3000ms for better performance
-  }
+    this.adoptablesService.getDogs(this.skip, this.limit).then((res) => {
+      this.dogs = res;
+      return this.dogs;
+    })
+  }  
 
   changeAge(change: string) {
     this.currentAge = change;

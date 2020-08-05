@@ -1,13 +1,55 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Adoptable } from 'src/app/models/adoptables';
+//socket.io
+//
+import { Socket } from '@hreimer/ngx-socket-io';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdoptableService {
+  private changes = new BehaviorSubject(false);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private socket: Socket) {
+    /*
+      Client will wait for events from socket.io which allows our app to retrieve data from MongoDB in real time.
+      All components which import adoptable service should subscribe to getChanges() and use logic based on the returned boolean value.
+    */
+    this.socket.on('created', response => {
+      this.setChanges(true);
+      //console.log('created');
+    });
+    this.socket.on('updated', response => {
+      this.setChanges(true);
+      //console.log('updated');
+    });
+    this.socket.on('deleted', response => {
+      this.setChanges(true);
+      //console.log('deleted');
+    });
+  }
+
+  getChanges(): Observable<boolean> {
+    return this.changes.asObservable();
+  }
+  setChanges(value: boolean) {
+    this.changes.next(value);
+  }
+
+  isConnected(): Promise<any> {
+    return this.http.get('/api/connection-test', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .toPromise()
+      .then(res => res as String)
+      .catch(err => {
+        return err;
+      })
+  }
 
   getAnalytics(): Promise<any> {
     return this.http.get('/api/dogs/analytics', {
@@ -22,10 +64,10 @@ export class AdoptableService {
       })
   }
 
-  getDogs(skip:string, limit:string): Promise<any> {
+  getDogs(skip: string, limit: string): Promise<any> {
     let param1 = skip;
     let param2 = limit;
-    let params = new HttpParams().set("skip", param1).set("limit", param2); 
+    let params = new HttpParams().set("skip", param1).set("limit", param2);
     return this.http.get('/api/dogs', {
       headers: {
         'Content-Type': 'application/json',
@@ -68,10 +110,10 @@ export class AdoptableService {
   getDogsQuery(age: string, gender: string, search: string): Promise<any> {
     //create new http params
     //
-    let param1 = age == null ? '*': age;
-    let param2 = gender == null ? '*': gender;
-    let param3 = search == null ? '': search;
-    let params = new HttpParams().set("age", param1).set("gender", param2).set("search", param3); 
+    let param1 = age == null ? '*' : age;
+    let param2 = gender == null ? '*' : gender;
+    let param3 = search == null ? '' : search;
+    let params = new HttpParams().set("age", param1).set("gender", param2).set("search", param3);
 
     return this.http.get(`/api/dogs/query/`, {
       headers: {
@@ -101,7 +143,7 @@ export class AdoptableService {
       })
       .catch(err => {
         return err;
-      })   
+      })
   }
 
   updateDogByID(data): Promise<any> {
@@ -122,7 +164,7 @@ export class AdoptableService {
       })
   }
 
-  deleteDogByID(id:string ): Promise<any> {
+  deleteDogByID(id: string): Promise<any> {
 
     return this.http.delete(`/api/admin/delete/${id}`, {
       headers: {
@@ -138,8 +180,8 @@ export class AdoptableService {
       })
   }
 
-  setFeaturedDogById(id:string ): Promise<any> {
-    
+  setFeaturedDogById(id: string): Promise<any> {
+
     return this.http.post(`/api/admin/setFeatured/${id}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -185,7 +227,7 @@ export class AdoptableService {
         return err;
       })
   }
-  
+
   getDocCount(): Promise<any> {
     return this.http.get('/api/dogs/count', {
       headers: {

@@ -26,6 +26,10 @@ exports.createDogAsync = async (req, res) => {
             res.status(200).json({ 'message': `Error document containing id ${id} already exists`, type: 'error' });
         }
     }
+    //emit db changes to clients
+    //
+    var io = req.app.get('socketio');
+    io.emit('created', { 'msg': `Document ${id} created` });
 }
 
 //delete dog by id sent from the /api/admin/delete/:id route
@@ -41,6 +45,10 @@ exports.deleteDogByIdAsync = async (req, res) => {
         .catch(err => {
             res.status(200).json({ 'message': `No document with id ${id} was found`, type: 'error' });
         })
+    //emit db changes to clients
+    //
+    var io = req.app.get('socketio');
+    io.emit('deleted', { 'msg': `Document ${id} was deleted` });
 }
 
 //delete all dogs sent from the /api/admin/delete route
@@ -52,6 +60,10 @@ exports.deleteAllDogAsync = async (req, res) => {
         await mongoose.db.collection(COLLECTION).deleteMany();
         res.status(200).json({ 'message': `${count} documents were deleted successfully`, type: 'success' });
     }
+    //emit db changes to clients
+    //
+    var io = req.app.get('socketio');
+    io.emit('deleted', { 'msg': `All Documents were deleted` });
 }
 
 //Update document with data sent from the /api/admin/update route
@@ -96,6 +108,10 @@ exports.updateDogByIdAsync = async (req, res) => {
                     }
                 })
     }
+    //emit db changes to clients
+    //
+    var io = req.app.get('socketio');
+    io.emit('updated', { 'msg': `Document ${id} was updated` });
 }
 
 exports.setFeaturedAsync = async (req, res) => {
@@ -134,6 +150,10 @@ exports.setFeaturedAsync = async (req, res) => {
         .catch(err => {
             res.status(200).json({ 'message': `No document with id ${id} was found`, type: 'error' });
         });
+    //emit db changes to clients
+    //
+    var io = req.app.get('socketio');
+    io.emit('updated', { 'msg': `All documents were updated.` });
 }
 
 
@@ -268,6 +288,10 @@ exports.generateTestDataAsync = async (req, res) => {
         catch (err) {
             console.log(err);
         }
+        //emit db changes to clients
+        //
+        var io = req.app.get('socketio');
+        io.emit('updated', { 'msg': `Generated test data.` });
     });
 }
 

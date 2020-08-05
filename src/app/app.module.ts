@@ -1,17 +1,11 @@
-//socket.io configuration
-import { SocketIoModule, SocketIoConfig } from '@hreimer/ngx-socket-io';
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
-
+//Angular Default Components
+//
 import { NgModule } from '@angular/core';
 import { BrowserModule, Title, Meta } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
-//Angular Default Components
-//
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 //Angular Generated Components
 //
 import { HomeComponent } from './home/home.component';
@@ -53,6 +47,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 //Charts
 import { ChartsModule } from 'ng2-charts';
 
+//socket.io configuration
+import { SocketIoModule, SocketIoConfig } from '@hreimer/ngx-socket-io';
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 @NgModule({
   declarations: [
     AppComponent,

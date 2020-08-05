@@ -20,7 +20,7 @@ exports.login = async (req, res, next) => {
             if (user === null) {
                 //user does not exist
                 //
-                res.status(400).json({ message: 'User or password does not match.' });
+                res.status(401).json({ message: 'User or password does not match.' });
             } else {
                 //verify password if user exists
                 //
@@ -46,7 +46,7 @@ exports.login = async (req, res, next) => {
                 } else {
                     //password is invalid
                     //
-                    res.status(400).json({ message: 'User or password does not match.' });
+                    res.status(401).json({ message: 'User or password does not match.' });
                 }
             }
         })

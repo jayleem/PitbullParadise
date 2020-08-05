@@ -26,6 +26,7 @@ router.get('/api/dogs/featured', [dogController.getFeaturedDogAsync]);
 router.get('/api/dogs/id/:id', [dogController.getDogByIdAsync]);
 router.get('/api/dogs/query', [dogController.getDogsByQueryAsync]);
 router.get('/api/dogs/analytics', [dogController.getAnalyticsReportAsync]);
+router.get('/api/connection-test', (req, res) => {res.status(200).json({'msg':'connection received'})});
 //ANY route
 //
 router.get('*', (req, res) => {res.status(400).json({message:'resource does not exist'})});

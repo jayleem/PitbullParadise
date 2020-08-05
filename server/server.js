@@ -1,7 +1,9 @@
 const express = require('express'),
     cors = require('cors'),
     bodyParser = require('body-parser'),
-    app = express();
+    app = express(),
+    server = require('http').createServer(app),
+    io = require('socket.io').listen(server);
 
 //Setup mongoose connection
 //
@@ -34,7 +36,7 @@ var corsOptions = {
 }
 app.use(cors(corsOptions));
 
-//Set up routes **important to be below bodyParser else it wont work properly**
+//Setup routes **important to be below bodyParser else it wont work properly**
 //
 const routes = require('./routes');
 app.use('/', routes);
@@ -43,9 +45,23 @@ app.use('/', routes);
 //
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));//callbacks for errors
 db.once('open', () => {
-    app.listen(3000, () => {
+    server.listen(3000, () => {
         console.log('Server running on port 3000');
     });
 });
+
+//Setup sockets.io
+//
+app.set('socketio', io);
+io.sockets.on('connection', socket => {
+    console.log('user connected');
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+    socket.on('message', message => {
+        console.log('message received: ', message);
+        socket.emit('response', { 'data': 'Hello!' });
+    });
+})
 
 module.exports.app;

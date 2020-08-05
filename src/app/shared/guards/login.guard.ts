@@ -11,24 +11,29 @@ export class LoginGuard implements CanActivate {
   constructor(
     private router: Router,
     private authService: AuthService
-  ) { }
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  ) {
     //subscribe to observable
     //
     this.authService.isLoggedIn().subscribe(value => {
       this.auth = value;
-      console.log('login-guard', new Date() + ' ' + this.auth);
     });
+  }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    const url = state.url.toString();
     //auth logic
     //
     if (this.auth == true) {
-      // not logged in so redirect to login page with the return url
+      // already logged in so redirect to the admin dashboard
       //
+      console.log({ 'access-attempt-date': new Date(), 'url':url, 'authorized': this.auth });
       this.router.navigate(['/admin/panel']);
       return false;
 
     } else {
+      //not logged in so allow the user to login
+      //
+      console.log({ 'access-attempt-date': new Date(), 'url':url, 'authorized': this.auth });
       return true;
     };
   }

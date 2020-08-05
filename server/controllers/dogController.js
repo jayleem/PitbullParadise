@@ -96,16 +96,16 @@ exports.getFeaturedDogAsync = async (req, res) => {
 
     //MongoDB Query
     //
-    const docRef = await Adoptable.findOne(query)
-        .then(docs => {
-            res.status(200).json(docs);
-        })
-        .catch(err => {
-            res.status(401).json('Failed getting docs')
-        });
+    const data = await Adoptable.findOne(query)
+    .then(docs => {
+        res.status(200).json(docs);
+    })
+    .catch(err => {
+        res.status(401).json('Failed getting docs')
+    });
 }
 
-exports.getDocCountAsync = async(req,res) => {
+exports.getDocCountAsync = async (req, res) => {
     const docCount = await Adoptable.find({}).countDocuments();
     res.status(200).json(docCount);
 }
