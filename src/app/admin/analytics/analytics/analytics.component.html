@@ -1,28 +1,66 @@
-<div *ngIf="report !== 'null'" class="container-fluid mb-2 py-2 border rounded">
-    <div class="row my-2 justify-content-between">
-        <div class="col-sm-12 col-md-6 p-0 pr-md-2 mb-sm-3">
-            <div class="chart col-sm-12 rounded py-4">
-                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels"
-                    [chartType]="pieChartType" [options]="pieChartOptions"
-                    [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend">
+<!--
+    total: countAdoptables,
+    totalMales: countMales,
+    totalFemales: countFemales,
+    totalPuppies: countPuppies,
+    totalAdults: countAdults,
+    totalSeniors: countSeniors,
+    breeds: breedsArr,
+    types: typesArr,
+    intakeDates: intakeDatesArr,
+    featuredDogs: featuredDogs,
+    totalFeaturedDogs: countFeaturedDogs
+-->
+<div *ngIf="report !== null; else notShown" class="container-fluid mb-2 p-4 border rounded">
+    <div class="row my-2">
+        <div class="col-md-12 px-2 py-4 mb-3 bg-white shadow border rounded">
+            <div class="col-md-12">
+                <p>Total Adoptables: {{report.adoptables.total}}</p>
+                <p>Males: {{report.adoptables.totalMales}}</p>
+                <p>Females: {{report.adoptables.totalFemales}}</p>
+                <p>Puppies: {{report.adoptables.totalPuppies}}</p>
+                <p>Adults: {{report.adoptables.totalAdults}}</p>
+                <p>Seniors: {{report.adoptables.totalSeniors}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row my-2 justify-content-around">
+        <div class="col-sm-12 col-md-5 px-2 py-4 mb-3 bg-white shadow border rounded">
+            <div class="col-md-12">
+                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
+                    [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartColors"
+                    [legend]="pieChartLegend">
                 </canvas>
             </div>
         </div>
-        <div class="col-sm-12 col-md-6 mb-sm-2 p-0 pl-md-2">
-            <div class="chart col-sm-12 rounded py-4">
-                <canvas baseChart [data]="pieChartData2" [labels]="pieChartLabels2"
-                    [chartType]="pieChartType" [options]="pieChartOptions2"
-                    [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend">
+        <div class="col-sm-12 col-md-5 px-2 py-4 mb-3 bg-white shadow border rounded">
+            <div class="col-md-12">
+                <canvas baseChart [data]="pieChartData2" [labels]="pieChartLabels2" [chartType]="pieChartType"
+                    [options]="pieChartOptions2" [plugins]="pieChartPlugins" [colors]="pieChartColors"
+                    [legend]="pieChartLegend">
+                </canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row my-2 justify-content-middle">
+        <div class="col-md-12 px-2 py-4 mb-3 bg-white shadow border rounded">
+            <div class="col-md-12">
+                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [chartType]="barChartType"
+                    [options]="barChartOptions" [plugins]="barChartPlugins" [colors]="barChartColors"
+                    [legend]="barChartLegend">
                 </canvas>
             </div>
         </div>
     </div>
     <div class="row justify-content-middle">
-        <div class="chart col-sm-12 rounded pt-2 pb-4">
-            <canvas baseChart width="400" height="400" [datasets]="lineChartData"
-                [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
-                [legend]="lineChartLegend" [chartType]="lineChartType" [plugins]="lineChartPlugins">
+        <div class="chart col-sm-12 pt-2 pb-4 bg-white shadow border rounded">
+            <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
+                [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+                [chartType]="lineChartType" [plugins]="lineChartPlugins">
             </canvas>
         </div>
     </div>
 </div>
+<ng-template #notShown class="container-fluid mb-2 py-2 border rounded">
+    <p class="text-center">Sorry, there was an error connecting to the API...</p>
+</ng-template>

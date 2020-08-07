@@ -63,6 +63,15 @@
                 </div>
             </div>
         </div>
+        <div class="row mt-4 mb-4">
+            <div class="col-sm-12">
+                <h1 class="text-center" *ngIf="searched && hasSearchResults">Found {{dogs.length}} results.</h1>
+                <span class="text-center" *ngIf="searched && !hasSearchResults">
+                    <h4>No matches found.</h4>
+                    <h6>Please try another search.</h6>
+                </span>
+            </div>
+        </div>
         <div class="row px-4">
             <div *ngFor="let dog of dogs | slice: pageSize:pageSize+itemsPerPage; let i = index;" class="col-sm-4 my-3">
                 <a routerLink="/search/{{dog.name | lowercase}}-{{dog.id}}">

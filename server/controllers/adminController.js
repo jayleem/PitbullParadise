@@ -1,4 +1,5 @@
-var mongoose = require('../models/adoptable');
+var Adoptable = require('../models/adoptable');
+const { DH_UNABLE_TO_CHECK_GENERATOR } = require('constants');
 const COLLECTION = 'adoptables';
 
 //Get data sent from the /api/admin/create route
@@ -11,11 +12,11 @@ exports.createDogAsync = async (req, res) => {
     if (data) {
         //check that doc doesn't exist
         //
-        const doc = await mongoose.db.collection(COLLECTION).findOne({ 'id': regex });
+        const doc = await Adoptable.findOne({ 'id': regex });
         //logic for inserting new document
         //
         if (!doc) {
-            const docRef = await mongoose.db.collection(COLLECTION).insertOne(data)
+            const docRef = await Adoptable.create(data)
                 .then(() => {
                     res.status(200).json({ 'message': `Document with id ${id} was created successfully`, type: 'success' });
                 })
@@ -38,7 +39,7 @@ exports.deleteDogByIdAsync = async (req, res) => {
     const id = req.params.id;
     const regex = new RegExp('^' + id + '$', "i");
 
-    const docRef = await mongoose.db.collection(COLLECTION).findOneAndDelete({ 'id': regex })
+    const docRef = await Adoptable.findOneAndDelete({ 'id': regex })
         .then(() => {
             res.status(200).json({ 'message': `Document with id ${id} was deleted successfully`, type: 'success' });
         })
@@ -54,10 +55,10 @@ exports.deleteDogByIdAsync = async (req, res) => {
 //delete all dogs sent from the /api/admin/delete route
 //
 exports.deleteAllDogAsync = async (req, res) => {
-    const data = await mongoose.db.collection(COLLECTION).find({});
-    const count = await mongoose.db.collection(COLLECTION).find({}).count();
+    const data = await Adoptable.find({});
+    const count = await Adoptable.find({}).count();
     if (data) {
-        await mongoose.db.collection(COLLECTION).deleteMany();
+        await Adoptable.deleteMany();
         res.status(200).json({ 'message': `${count} documents were deleted successfully`, type: 'success' });
     }
     //emit db changes to clients
@@ -72,41 +73,41 @@ exports.updateDogByIdAsync = async (req, res) => {
     //convert stringified JSON back to JSON object
     //
     const data = JSON.parse(req.query.data);
+    const id = data.id;
 
     //update the document which contains the dogs id
     //
     if (data) {
-        const doc = await mongoose.db.collection(COLLECTION)
-            .findOneAndUpdate(
-                { 'id': data.id },
+        const doc = await Adoptable.findOneAndUpdate(
+            { 'id': id },
+            {
+                $set:
                 {
-                    $set:
-                    {
-                        id: data.id,
-                        age: data.age,
-                        name: data.name,
-                        type: data.type,
-                        breed: data.breed,
-                        birthdate: data.birthdate,
-                        gender: data.gender,
-                        traits: data.traits,
-                        image: data.image,
-                        description: data.description,
-                        adoptionFee: data.adoptionFee,
-                        isFeatured: data.isFeatured,
-                        hasMedicalNeeds: data.hasMedicalNeeds,
-                        healthDesc: data.healthDesc,
-                        intakeDate: data.intakeDate,
-                        notes: data.notes,
-                    }
-                },
-                (err) => {
-                    if (!err) {
-                        res.status(200).json({ 'message': `Document with id ${data.id} was updated successfully`, type: 'success' });
-                    } else {
-                        res.status(200).json({ 'message': `No document with id ${data.id} was found`, type: 'error' });
-                    }
-                })
+                    id: id,
+                    age: data.age,
+                    name: data.name,
+                    type: data.type,
+                    breed: data.breed,
+                    birthdate: data.birthdate,
+                    gender: data.gender,
+                    traits: data.traits,
+                    image: data.image,
+                    description: data.description,
+                    adoptionFee: data.adoptionFee,
+                    isFeatured: data.isFeatured,
+                    hasMedicalNeeds: data.hasMedicalNeeds,
+                    healthDesc: data.healthDesc,
+                    intakeDate: data.intakeDate,
+                    notes: data.notes,
+                }
+            },
+            (err) => {
+                if (!err) {
+                    res.status(200).json({ 'message': `Document with id ${data.id} was updated successfully`, type: 'success' });
+                } else {
+                    res.status(200).json({ 'message': `No document with id ${data.id} was found`, type: 'error' });
+                }
+            })
     }
     //emit db changes to clients
     //
@@ -119,27 +120,25 @@ exports.setFeaturedAsync = async (req, res) => {
 
     //first promise update the document containing the dogs id passed as a paramater
     //
-    const promise1 = await mongoose.db.collection(COLLECTION)
-        .findOneAndUpdate(
-            { 'id': id },
+    const promise1 = await Adoptable.findOneAndUpdate(
+        { 'id': id },
+        {
+            $set:
             {
-                $set:
-                {
-                    isFeatured: true,
-                }
-            });
+                isFeatured: true,
+            }
+        });
 
     //second promise update documents not equal to the dogs id passed as a paramater
     //
-    const promise2 = await mongoose.db.collection(COLLECTION)
-        .updateMany(
-            { 'id': { $ne: id } },
+    const promise2 = await Adoptable.updateMany(
+        { 'id': { $ne: id } },
+        {
+            $set:
             {
-                $set:
-                {
-                    isFeatured: false,
-                }
-            });
+                isFeatured: false,
+            }
+        });
 
     //promises array
     //
@@ -177,6 +176,7 @@ function randomString(length) {
 //generate n number of dogs sent from th /api/admin/test/:count route
 //
 exports.generateTestDataAsync = async (req, res) => {
+    console.log('triggered');
     let n = req.params.count;
     let nameArr = ['Abracadabra', 'Alchemy', 'Android', 'Bailey', 'Baja', 'Basil', 'Blunder', 'Cargo', 'Cashmere', 'Charade', 'Dank', 'Doodle', 'Doglet',
         'Echo', 'Eclipse', 'Edge', 'Faust', 'Frog', 'Face', 'Gizmo', 'Goblin', 'Ghost', 'Hog', 'Hobbit', 'Hero', 'Hunter', 'Indigo', 'Jackpot', 'Jazz',
@@ -280,7 +280,7 @@ exports.generateTestDataAsync = async (req, res) => {
                 adoptables.push(adoptable);
             }
             for (adoptable in adoptables) {
-                await mongoose.db.collection(COLLECTION).insertOne(adoptables[adoptable]);
+                const ref = await Adoptable.create(adoptables[adoptable]);
             }
             res.status(200).json({ 'message': `${adoptables.length} documents created successfully`, type: 'success' });
             resolve();
@@ -294,5 +294,129 @@ exports.generateTestDataAsync = async (req, res) => {
         io.emit('updated', { 'msg': `Generated test data.` });
     });
 }
+
+//analytics report
+//
+exports.getAnalyticsReportAsync = async (req, res) => {
+    //MongoDB Query used for analytics portion of admin panel
+    //
+    var report = null;
+    const countAdoptables = await Adoptable.find({}).countDocuments();
+    const countMales = await Adoptable.find({ 'gender': new RegExp('^' + 'male' + '$', "i") }).countDocuments();
+    const countFemales = await Adoptable.find({ 'gender': new RegExp('^' + 'female' + '$', "i") }).countDocuments();
+    const countPuppies = await Adoptable.find({ 'age': { $gt: 0, $lt: 2 } }).countDocuments();
+    const countAdults = await Adoptable.find({ 'age': { $gte: 2, $lt: 6 } }).countDocuments();
+    const countSeniors = await Adoptable.find({ 'age': { $gte: 6 } }).countDocuments();
+    const featuredDogs = await Adoptable.find({ 'isFeatured': true });
+    const countFeaturedDogs = await Adoptable.find({ 'isFeatured': true }).countDocuments();
+
+    //query to group dogs by breed,age,gender
+    //
+    let breedsObjArr = [];
+    const countDistinctBreeds = await Adoptable.aggregate([{ $group: { _id: { breed: "$breed", age: "$age", gender: "$gender" } } }])
+        .then(docs => {
+            docs.forEach(doc => {
+                if (!breedsObjArr.some(el => el.breed === doc._id.breed)) {
+                    breedsObjArr.push(
+                        {
+                            breed: doc._id.breed,
+                            male: 0,
+                            female: 0,
+                            total: 0,
+                            puppy: 0,
+                            adult: 0,
+                            senior: 0
+                        }
+                    )
+                }
+                //get the index which matches the current documents breed
+                //
+                const index = breedsObjArr.findIndex(el => el.breed === doc._id.breed)
+                let selected = breedsObjArr[index];
+                breedsObjArr[index].total++;
+                //determine its gender and then add result to the selected indexes property
+                //
+                if(doc._id.gender.toLowerCase() == 'male') {
+                    breedsObjArr[index].male++;
+                }
+                if(doc._id.gender.toLowerCase() == 'female') {
+                    breedsObjArr[index].female++;
+                }
+                //determine its age and then add result to the selected indexes property
+                //
+                if(doc._id.age > 0 && doc._id.age < 2) {
+                    breedsObjArr[index].puppy++;
+                }
+                if(doc._id.age >= 2 && doc._id.age < 6) {
+                    breedsObjArr[index].adult++;
+                }
+                if(doc._id.age >= 6) {
+                    breedsObjArr[index].senior++;
+                }
+            })
+            console.log(breedsObjArr);
+        });
+    //types
+    //
+    let typesArr = [];
+    const countDistinctTypes = await Adoptable.aggregate([{ $group: { _id: { $toLower: "$type" }, count: { "$sum": 1 } } }])
+        .then(docs => {
+            docs.forEach(doc => {
+                typesArr.push([doc._id, doc.count]);
+            })
+        });
+    //intake dates
+    //
+    let intakeDatesArr = [];
+    const intakeDatesRef = await Adoptable.aggregate([
+        {
+            "$project": {
+                "intakeDate": { "$toDate": "$intakeDate" }
+            }
+        },
+        {
+            "$group": {
+                "_id": { "$dateToString": { "format": "%Y-%m", "date": "$intakeDate" } },
+                "count": { "$sum": 1 }
+            }
+        }
+    ])
+        .then(docs => {
+            docs.forEach(doc => {
+                intakeDatesArr.push([doc._id, doc.count]);
+            })
+        });
+    //sort the intakesDatesArr
+    //
+    intakeDatesArr.sort(([a], [b]) => {
+        const dateA = new Date(a).getTime();
+        const dateB = new Date(b).getTime();
+        return (dateA == dateB ? 0 : dateA > dateB ? 1 : -1);
+    })
+    //generate file report
+    //
+    report = {
+        adoptables: {
+            total: countAdoptables,
+            totalMales: countMales,
+            totalFemales: countFemales,
+            totalPuppies: countPuppies,
+            totalAdults: countAdults,
+            totalSeniors: countSeniors,
+            breeds: breedsObjArr,
+            types: typesArr,
+            intakeDates: intakeDatesArr,
+            featuredDogs: featuredDogs,
+            totalFeaturedDogs: countFeaturedDogs
+        }
+    }
+    //console.log(report.adoptables);
+
+    if (report === null) {
+        res.sendStatus(400).json({ 'data': null });
+    } else {
+        res.status(200).json({ 'data': report });
+    }
+};
 
 exports.adminController;

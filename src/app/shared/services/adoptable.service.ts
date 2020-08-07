@@ -52,7 +52,7 @@ export class AdoptableService {
   }
 
   getAnalytics(): Promise<any> {
-    return this.http.get('/api/dogs/analytics', {
+    return this.http.get('/api/admin/analytics', {
       headers: {
         'Content-Type': 'application/json',
       },

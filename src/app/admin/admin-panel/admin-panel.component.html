@@ -18,13 +18,6 @@
                     </div>
                     <h4 class="card-text">Analytics:</h4>
                     <hr class="w-100">
-                    <div *ngIf="featuredDog; else notShown" class="col-sm-12 mb-3">
-                        <h6>Dog of the Month: <a routerLink="../details/{{featuredDog.name}}-{{featuredDog.id}}">{{featuredDog.id}}</a></h6>
-                    </div>
-                    <ng-template #notShown class="col-sm-12 mb-3">
-                        <p>No dog is featured this month, select a dog to be featured <a
-                                routerLink='admin/list'>here.</a></p>
-                    </ng-template>
                     <!-- Start Analytics Component -->
                     <app-analytics></app-analytics>
                     <!-- End Analytics Component-->
@@ -42,6 +35,7 @@
                             (mousedown)="start();" (mouseup)="stop();">
                             Purge Database
                         </button>
+                        <h1 *ngIf="purging" class="text-center" [ngClass]="currTick<10 || currTick == 10 ? 'text-danger':null">{{currTick}}</h1>
                         <p class="text-left my-4">
                             Warning: Purging the database will delete all documents from the database.
                             This process can be started by holding the button for 30 seconds and stopped by releasing

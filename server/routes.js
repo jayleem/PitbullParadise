@@ -18,6 +18,7 @@ router.post('/api/admin/update/', [authController.verifyToken, adminController.u
 router.post('/api/admin/setFeatured/:id', [authController.verifyToken, adminController.setFeaturedAsync]);
 router.delete('/api/admin/delete', [authController.verifyToken, adminController.deleteAllDogAsync]);
 router.delete('/api/admin/delete/:id', [authController.verifyToken, adminController.deleteDogByIdAsync]);
+router.get('/api/admin/analytics', [authController.verifyToken, adminController.getAnalyticsReportAsync]);
 //unprotected API routes
 //
 router.get('/api/dogs', [dogController.getAllDogsAsync]);
@@ -25,8 +26,7 @@ router.get('/api/dogs/count', [dogController.getDocCountAsync]);
 router.get('/api/dogs/featured', [dogController.getFeaturedDogAsync]);
 router.get('/api/dogs/id/:id', [dogController.getDogByIdAsync]);
 router.get('/api/dogs/query', [dogController.getDogsByQueryAsync]);
-router.get('/api/dogs/analytics', [dogController.getAnalyticsReportAsync]);
-router.get('/api/connection-test', (req, res) => {res.status(200).json({'msg':'connection received'})});
+router.get('/api/connection-test', (req, res) => {res.sendStatus(200);res.end();});
 //ANY route
 //
 router.get('*', (req, res) => {res.status(400).json({message:'resource does not exist'})});

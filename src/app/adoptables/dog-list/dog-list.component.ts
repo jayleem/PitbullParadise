@@ -19,6 +19,8 @@ export class DogListComponent implements OnInit {
   public currentAge: string; //default age
   public currentGender: string; //default gender
   public currentSearchTerms: string; //default id
+  public searched = false;
+  public hasSearchResults = false;
   //pagination vars
   //
   public currentPage = 1;
@@ -52,6 +54,7 @@ export class DogListComponent implements OnInit {
   ) {
     //initial document fetch
     //
+    this.getDocCount();
     this.getDogs();
     //real time data subscription
     //
@@ -60,6 +63,7 @@ export class DogListComponent implements OnInit {
         if (value) {
           //db changes
           //
+          this.getDocCount();
           this.getDogs();
           //if filters were applied during an update event then reapply them
           //
@@ -80,11 +84,14 @@ export class DogListComponent implements OnInit {
     this.metaService.updateTag({ name: 'author', content: this.author });
   }
 
+  getDocCount() {
+    this.adoptablesService.getDocCount()
+    .then(res => {
+      this.maxDocs = res - parseInt(this.limit);
+    });
+  }
+
   getDogs() {
-    this.adoptablesService.getDogs("0", "0")
-      .then(res => {
-        this.maxDocs = res.length - parseInt(this.limit);
-      })
     this.adoptablesService.getDogs(this.skip, this.limit)
       .then(res => {
         this.dogs = res;
@@ -108,9 +115,17 @@ export class DogListComponent implements OnInit {
     this.adoptablesService.getDogsQuery(this.currentAge, this.currentGender, this.currentSearchTerms)
       .then(res => {
         if (res.length > 0) {
+          //found search results
+          //
+          this.searched = true;
+          this.hasSearchResults = true;
           this.dogs = res;
         } else {
-          this.dogs = null;
+          //no search results
+          //
+          this.searched = true;
+          this.hasSearchResults = false;
+          this.dogs = [];
         }
       })
       .catch(err => console.log(err))
@@ -123,7 +138,9 @@ export class DogListComponent implements OnInit {
     //
     this.currentAge = null;
     this.currentGender = null;
-    this.changeSearchTerms = null;
+    this.currentSearchTerms = null;
+    this.searched = false;
+    this.hasSearchResults = false;
     //
     //reset pagination and dogs documents array
     this.skip = "0";

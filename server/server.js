@@ -9,7 +9,7 @@ const express = require('express'),
 //
 const mongoose = require('mongoose');
 const mongoDB = 'mongodb://localhost/default';
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
 var db = mongoose.connection;
 
 //Setup body parser

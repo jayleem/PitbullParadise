@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdoptableService } from 'src/app/shared/services/adoptable.service';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-analytics',
@@ -24,17 +25,53 @@ export class AnalyticsComponent implements OnInit {
   private robots: string = "NOINDEX, NOFOLLOW"
   private author: string = "github.com/jayleem"
 
+  private subscriptions: Subscription[] = [];
   constructor(
     private adoptablesService: AdoptableService,
   ) { }
 
   ngOnInit(): void {
-    this.adoptablesService.getAnalytics().then(res => this.report = res).then(() => this.updateCharts());
-  } 
+    //generate intiial report
+    this.getReport();
+    //real time analytics subscription
+    //
+    this.subscriptions.push(this.adoptablesService.getChanges().subscribe((value) => {
+      if (!value) {
+        //no db changes
+        //
+      } else {
+        this.getReport();
+      }
+    })
+    );
+  }
+
+  getReport() {
+    this.adoptablesService.getAnalytics()
+      .then(res => {
+        if (res.data) {
+          //response data not null
+          //
+          this.report = res.data;
+          this.updateCharts();
+        } else {
+          //no report, API/DB server must be down.
+          //
+          this.report = null;
+        }
+      })
+  }
 
   //initial pie chart configuration
   //
   public pieChartOptions: ChartOptions = {
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          return data['labels'][tooltipItem['index']] + ': ' + data['datasets'][0]['data'][tooltipItem['index']] + '%';
+        }
+      }
+    },
     title: {
       display: true,
       text: 'Dogs by Age',
@@ -53,6 +90,13 @@ export class AnalyticsComponent implements OnInit {
     },
   };
   public pieChartOptions2: ChartOptions = {
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          return data['labels'][tooltipItem['index']] + ': ' + data['datasets'][0]['data'][tooltipItem['index']] + '%';
+        }
+      }
+    },
     title: {
       display: true,
       text: 'Dogs by Breed',
@@ -120,7 +164,7 @@ export class AnalyticsComponent implements OnInit {
             fontColor: '#2b2c32',
             stepSize: 1.0,
             min: 0,
-            max: 100
+            max: 25
           },
           gridLines: {
             display: true
@@ -129,6 +173,28 @@ export class AnalyticsComponent implements OnInit {
       ]
     },
   };
+
+  //bar chart vars
+  //
+  public barChartOptions: (ChartOptions) = {
+    title: {
+      display: true,
+      text: 'Dogs by Breed and Gender',
+      fontColor: '#2b2c3280',
+      fontSize: 13,
+      fontFamily: 'Raleway'
+    },
+    responsive: true
+  }
+  public barChartColors: Array<any> = [];
+  public barChartLabels: Label[] = [];
+  public barChartData: ChartDataSets[] = [];
+  public barChartLegend = true;
+  public barChartType = 'horizontalBar';
+  public barChartPlugins = false;
+
+  //line chart vars
+  //
   public lineChartColors: Color[] = [];
   public lineChartLegend = true;
   public lineChartType = 'line';
@@ -137,20 +203,24 @@ export class AnalyticsComponent implements OnInit {
     //first pie chart containing data about total dogs and age
     //
     this.pieChartLabels = [
-      `Total, ${this.report.adoptables.total}`,
-      `Puppies, ${this.report.adoptables.totalPuppies}`,
-      `Adults, ${this.report.adoptables.totalAdults}`,
-      `Seniors, ${this.report.adoptables.totalSeniors}`];
-    this.pieChartData = [this.report.adoptables.total, this.report.adoptables.totalPuppies, this.report.adoptables.totalAdults, this.report.adoptables.totalSeniors];
+      `Puppies`,
+      `Adults`,
+      `Seniors`
+    ];
+    this.pieChartData = [
+      (this.report.adoptables.totalPuppies / this.report.adoptables.total) * 100,
+      (this.report.adoptables.totalAdults / this.report.adoptables.total) * 100,
+      (this.report.adoptables.totalSeniors / this.report.adoptables.total) * 100
+    ];
     //second pie chart containing breed data
     //
-    this.pieChartLabels2 = [`Total, ${this.report.adoptables.total}`]
-    this.report.adoptables.breeds.forEach(breed => {
-      this.pieChartLabels2.push(breed[0] + ', ' + breed[1]);
+    this.pieChartLabels2 = []
+    this.report.adoptables.breeds.forEach(item => {
+      this.pieChartLabels2.push(item.breed);
     });
-    this.pieChartData2 = [this.report.adoptables.total];
-    this.report.adoptables.breeds.forEach(breed => {
-      this.pieChartData2.push(breed[1]);
+    this.pieChartData2 = [];
+    this.report.adoptables.breeds.forEach(item => {
+      this.pieChartData2.push(item.total / (this.report.adoptables.total) * 100);
     });
     //pie chart colors
     //
@@ -169,6 +239,33 @@ export class AnalyticsComponent implements OnInit {
       '#e3aa64',
       '#e29c62'
     ];
+
+    //bar chart configuration
+    //
+    this.barChartColors = [
+      {
+        backgroundColor: '#4b8b7c'
+      },
+      {
+        backgroundColor: '#69ae89'
+      }
+    ];
+    let dataM: any[] = []; //holds male data points
+    let dataF: any[] = []; //holes female data points
+    //genereate labels and push data to data arrays
+    //
+    this.report.adoptables.breeds.forEach(item => {
+      this.barChartLabels.push(item.breed);
+      dataM.push(item.male);
+      dataF.push(item.female);
+    });
+    //define datasets
+    let dataSet1 = { label: "Male", data: dataM, stack: '0' };
+    let dataSet2 = { label: "Female", data: dataF, stack: '0' };
+    //set datasets
+    //
+    this.barChartData.push(dataSet1, dataSet2);
+
     //line chart configuration
     //
     this.report.adoptables.intakeDates.forEach(date => {
@@ -193,5 +290,18 @@ export class AnalyticsComponent implements OnInit {
       pointHoverBackgroundColor: '#e9914a',
       pointHoverBorderColor: '#fff'
     }
+  }
+
+  formatAge(n: number) {
+    let age = n.toString().split('.');
+    let results: string;
+    if (n < 1) {
+      results = `${age[1]} months`;
+    } else if (n % 1 === 0) {
+      results = `${age[0]} years`;
+    } else {
+      results = `${age[0]} years, ${age[1]} months`;
+    }
+    return results;
   }
 }

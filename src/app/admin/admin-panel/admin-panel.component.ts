@@ -12,14 +12,13 @@ import { Subscription } from 'rxjs';
 })
 export class AdminPanelComponent implements OnInit {
   public delay: any;
+  public countdown: any;
   public purging: boolean = false;
   public dbStatus: boolean = false;
-  public featuredDog: any;
   //TO-DO
   //get server addr and api key from enviorment variables
   public serverAddr: string = "http://localhost:3000/"
   public apiKey: string = "abcdef12345"
-  public report = null;
 
   private title: string = "Pitbull Paradise | Admin Panel";
   private metaDesc: string = "";
@@ -33,29 +32,12 @@ export class AdminPanelComponent implements OnInit {
     private metaService: Meta,
     private authService: AuthService,
     private dbMessageService: DbMessageService
-  ) {
-    this.subscriptions.push(
-      this.adoptablesService
-        .getChanges()
-        .subscribe(value => {
-          if (!value) {
-            //no db changes
-            //
-            this.adoptablesService.getFeaturedDogs().then((res) => {
-              this.featuredDog = res;
-              return this.featuredDog;
-            })
-          } else {
-            //db changes
-            //
-          }
-        })
-    );
-  }
+  ) { }
 
   ngOnInit(): void {
-    this.dbTestConnection()
-
+    //test connection
+    //
+    this.dbTestConnection();
     //set title and update meta tags
     //
     this.titleService.setTitle(this.title);
@@ -64,18 +46,10 @@ export class AdminPanelComponent implements OnInit {
     this.metaService.updateTag({ name: 'author', content: this.author });
   }
 
-  ngOnDestroy() {
-    //unsubscribe all subscriptions
-    //
-    for (const subscription in this.subscriptions) {
-      this.subscriptions[subscription].unsubscribe();
-    }
-  }
-
   dbTestConnection() {
     setTimeout(() => {
       this.adoptablesService.isConnected().then(res => {
-        if (res) {
+        if (res.status == '200') {
           this.dbStatus = true;
         }
         else {
@@ -88,20 +62,53 @@ export class AdminPanelComponent implements OnInit {
   //start timeout
   //
   start() {
+    //new purge database delay
+    //
     clearTimeout(this.delay);
     this.purging = true;
-    this.delay = setTimeout(() => { this.purgeDatabase() }, 1000);
+    this.delay = setTimeout(() => { this.purgeDatabase() }, 30000);
+    //new countdown
+    //
+    clearTimeout(this.countdown);
+    this.countdownStart();
   }
 
   //stop timeout
   //
   stop() {
+    this.countdownStop();
     clearTimeout(this.delay);
     this.purging = false;
     console.log('process aborted'); //clears timeout
   }
 
-  //purges the entire databse
+  //countdown vars
+  //
+  public timerLength: number = 30000;//time in miliseconds
+  public prevTick: number = this.timerLength;//prev time in miliseconds
+  public currTick: number = 30;//current tick in seconds
+  countdownStart() {
+    if (this.purging) {
+      this.countdown = setTimeout(() => {
+        console.log('countdown')
+        const nextTick = this.prevTick - 1000;
+        this.prevTick = nextTick;
+        this.currTick = this.prevTick / 1000;
+        this.countdownStart();
+      }, 1000);
+    } else {
+     this.countdownStop();
+    }
+  }
+  countdownStop() {
+    //reset countdown vars
+    //
+    this.prevTick = this.timerLength;
+    this.currTick = 0;
+    clearTimeout(this.countdown);
+  }
+
+  //purges the entire databse uses both start and stop functions to control the long press event
   //
   purgeDatabase() {
     clearTimeout(this.delay);

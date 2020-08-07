@@ -45,9 +45,15 @@ import { ToNumPipe } from './shared/pipes/to-num.pipe';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 //Charts
+//
 import { ChartsModule } from 'ng2-charts';
 
+//Directives
+//
+import { BackButtonDirective } from './custom-directives/back-button.directive';
+
 //socket.io configuration
+//
 import { SocketIoModule, SocketIoConfig } from '@hreimer/ngx-socket-io';
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 @NgModule({
@@ -73,7 +79,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     DbMessageComponent,
     AdminPanelComponent,
     AdminNavComponent,
-    AnalyticsComponent
+    AnalyticsComponent,
+    BackButtonDirective
   ],
   imports: [
     BrowserModule,

@@ -1,17 +1,21 @@
-<div class="container-fluid">
+<div class="container-fluid jumbotron-container"
+    [ngStyle]="{background: 'url(' + imageUrl + ') no-repeat center / cover'}">
+    <div class="d-flex row justify-content-center align-items-middle">
+        <div class="col-sm-12 p-0 m-0">
+            <div class="col-sm-12 mt-5 mb-2 d-flex justify-content-center">
+                <div class="col-sm-auto text-left">
+                    <h1>{{message}}</h1>
+                    <a class="btn btn-custom shadow" routerLink="{{link}}">{{linkText}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="d-flex row justify-content-center">
-        <div class="col-sm-12 p-0 m-0 jumbotron-container"
-            [ngStyle]="{background: 'url(' + imageUrl + ') no-repeat center / cover'}">
-            <div class="col-sm-8 mt-5 ml-auto mr-auto mb-2">
-                <h1>{{message}}</h1>
-                <a class="btn btn-custom shadow" routerLink="{{link}}">{{linkText}}</a>
-            </div>
-            <div class="col-sm-12 text-center">
-                <button *ngFor="let ad of adDict; let i = index"
-                    [ngClass]="index == i ? 'fas fa-dot-circle': 'far fa-circle'" class="btn rounded"
-                    (click)="getKeyValue(i);">
-                </button>
-            </div>
+        <div class="col-sm-12 text-center">
+            <button *ngFor="let ad of adDict; let i = index"
+                [ngClass]="index == i ? 'fas fa-dot-circle': 'far fa-circle'" class="btn rounded"
+                (click)="getKeyValue(i);">
+            </button>
         </div>
     </div>
 </div>

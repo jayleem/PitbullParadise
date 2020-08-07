@@ -54,6 +54,7 @@ export class AdminListComponent implements OnInit {
   ) {
     //initial document fetch
     //
+    this.getDocCount();
     this.getDogs();
     //real time data subscription
     //
@@ -62,6 +63,7 @@ export class AdminListComponent implements OnInit {
           if (value) {
             //db changes
             //
+            this.getDocCount();
             this.getDogs();
             //if filters were applied during an update event then reapply them
             //
@@ -88,6 +90,13 @@ export class AdminListComponent implements OnInit {
     for (const subscription in this.subscriptions) {
       this.subscriptions[subscription].unsubscribe();
     }
+  }
+
+  getDocCount() {
+    this.adoptablesService.getDocCount()
+    .then(res => {
+      this.maxDocs = res - parseInt(this.limit);
+    });
   }
 
   getDogs() {
