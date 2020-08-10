@@ -50,7 +50,7 @@ export class AdminLoginComponent implements OnInit {
     this.authService.signIn(username, password)
       .then(res => {
         if (res) {
-          this.router.navigate(['/admin/panel']);
+          this.router.navigate(['/admin/dashboard']);
         } else {
           this.errorMsg = 'Invalid username or password.'
         }

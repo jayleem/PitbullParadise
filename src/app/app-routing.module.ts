@@ -33,19 +33,11 @@ const routes: Routes = [
     ]
   },
   { path: 'adoption/:params', component: DogAdoptionFormComponent },
-  {
-    path: 'admin',
-    component: AdminComponent,
-    children: [
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'login', component: AdminLoginComponent, canActivate : [LoginGuard], runGuardsAndResolvers: 'always'},
-      { path: 'panel', component: AdminPanelComponent,  canActivate : [AuthGuard], runGuardsAndResolvers: 'always'},
-      { path: 'new', component: AdminNewComponent,  canActivate : [AuthGuard], runGuardsAndResolvers: 'always'},
-      { path: 'list', component: AdminListComponent,  canActivate : [AuthGuard], runGuardsAndResolvers: 'always'},
-      { path: 'update/:params', component: AdminUpdateComponent,  canActivate : [AuthGuard], runGuardsAndResolvers: 'always'},
-      { path: 'details/:params', component: AdminDetailsComponent,  canActivate : [AuthGuard], runGuardsAndResolvers: 'always'}
-    ]
-  },
+  //lazy loaded admin module
+  //
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
+  //404 routes
+  //
   { path: '404', component: PageNotFoundComponent },
   { path: '**', redirectTo: '404' }
 ];
