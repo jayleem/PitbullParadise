@@ -27,7 +27,7 @@ export class LoginGuard implements CanActivate {
       // already logged in so redirect to the admin dashboard
       //
       console.log({ 'access-attempt-date': new Date(), 'url':url, 'authorized': this.auth });
-      this.router.navigate(['/admin/panel']);
+      this.router.navigate(['/admin/dashboard']);
       return false;
 
     } else {
