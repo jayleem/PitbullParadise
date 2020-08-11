@@ -1,35 +1,29 @@
 <div *ngIf="showNav" class="container sidebar-container shadow h-100 bg-dark">
-    <nav class="sidebar overflow-hidden px-2">
+    <nav class="sidebar overflow-hidden">
         <div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse" id="collapsible">
             <ul class="list-unstyled">
-                <li class="list-item">
+                <li class="brand list-item">
                     <h5 class="text-white py-2 text-center">Pitbull Paradise</h5>
                     <h6 class="text-white py-2 text-center">Administrator</h6>
                 </li>
-                <hr>
                 <li class="nav-item">
-                    <a class="nav-link m-0" routerLink="/admin/dashboard" routerLinkActive="active"
+                    <a class="nav-link m-0" routerLink="/admin/dashboard/analytics" routerLinkActive="active"
                         [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
                 </li>
-                <hr>
                 <li class="nav-item">
                     <a class="nav-link m-0" routerLink="/admin/dashboard/list" routerLinkActive="active"
                         [routerLinkActiveOptions]="{exact: true}">Manage Adoptables</a>
                 </li>
-                <hr>
                 <li class="nav-item">
                     <a class="nav-link m-0" routerLink="/admin/dashboard/new" routerLinkActive="active"
                         [routerLinkActiveOptions]="{exact: true}">Create Adoptable</a>
                 </li>
-                <hr>
                 <li class="nav-item">
-                    <a class="nav-link m-0" (click)="signOut()" routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact: true}">Sign out
+                    <button class="nav-link m-0 btn-block btn-sign-out" (click)="signOut()">Sign out
                         <span><i class="fas fa-arrow-right"></i>
                         </span>
-                    </a>
+                    </button>
                 </li>
-                <hr>
             </ul>
         </div>
     </nav>

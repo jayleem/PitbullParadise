@@ -2,18 +2,21 @@ a {
     color: #4b8b7c !important;
     text-decoration: none;
     margin-right: 1em;
+    border-bottom: 1px solid #5c5c5c !important;
 }
 
 a:hover {
-    color: #e29c62 !important;
     text-decoration: none;
-    border-radius: 1px;
-    box-shadow: 0 0 0 2px #4b8b7c;
+    background-color: #5c5c5c;
+}
+
+a.active {
+    background-color: #5c5c5c80;
 }
 
 .sidebar-container {
     min-width: 100% !important;
-    border-right: 2px solid #505050 !important;
+    border-right: 2px solid #5c5c5c !important;
     border-bottom-right-radius: 6px !important;
 }
 
@@ -37,6 +40,10 @@ hr {
     box-shadow: none;
 }
 
+.brand {
+    border-bottom: 1px solid #5c5c5c !important;
+}
+
 .fas.fa-arrow-up,
 .fas.fa-arrow-down {
     color: #5c5c5c;
@@ -45,4 +52,16 @@ hr {
 .fas.fa-arrow-up:hover,
 .fas.fa-arrow-down:hover {
     color: #4b8b7c;
+}
+
+.btn-sign-out {
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    color: #4b8b7c !important;
+    border-bottom: 1px solid #5c5c5c !important;  
+}
+
+.btn-sign-out:hover {
+    background-color: #5c5c5c;
 }

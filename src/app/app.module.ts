@@ -31,10 +31,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 //
 import { ChartsModule } from 'ng2-charts';
 
-//Directives
-//
-import { BackButtonDirective } from './custom-directives/back-button.directive';
-
 //socket.io configuration
 //
 import { SocketIoModule, SocketIoConfig } from '@hreimer/ngx-socket-io';
@@ -46,6 +42,8 @@ import { HeaderModule } from './shared/modules/header/header.module';
 import { FooterModule } from './shared/modules/footer/footer.module';
 import { JumbotronModule } from './shared/modules/jumbotron/jumbotron.module';
 import { ToNumModule } from './shared/modules/to-num/to-num.module';//contains custom pipe ToNum used in most of the adoptable components
+import { BackButtonModule } from './shared/modules/back-button/back-button.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,8 +53,7 @@ import { ToNumModule } from './shared/modules/to-num/to-num.module';//contains c
     DogListComponent,
     PageNotFoundComponent,
     DogAdoptionFormComponent,
-    DonateComponent,
-    BackButtonDirective
+    DonateComponent
   ],
   imports: [
     HeaderModule,
@@ -69,6 +66,7 @@ import { ToNumModule } from './shared/modules/to-num/to-num.module';//contains c
     ReactiveFormsModule,
     HttpClientModule,
     ToNumModule,
+    BackButtonModule,
     SocketIoModule.forRoot(config)//socket.io
   ],
   providers: [

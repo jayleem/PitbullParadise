@@ -11,7 +11,16 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./analytics.component.scss']
 })
 export class AnalyticsComponent implements OnInit {
+  //toggle analytic components
+  //
+  togglePanel0: boolean = true;
+  togglePanel1: boolean = true;
+  togglePanel2: boolean = true;
+  togglePanel3: boolean = true;
+  togglePanel4: boolean = true;
 
+  //long press event
+  //
   delay: any;
   purging: boolean = false;
   dbStatus: boolean = false;
@@ -20,6 +29,8 @@ export class AnalyticsComponent implements OnInit {
   serverAddr: string = "http://localhost:3000/"
   apiKey: string = "abcdef12345"
   report = null;
+  //error msg
+  errorMsg: string = "";
 
   private title: string = "Pitbull Paradise | Admin Panel";
   private metaDesc: string = "";
@@ -50,15 +61,24 @@ export class AnalyticsComponent implements OnInit {
   getReport() {
     this.adoptablesService.getAnalytics()
       .then(res => {
+        //got response
         if (res.data) {
-          //response data not null
-          //
-          this.report = res.data;
-          this.updateCharts();
+          if (res.data.adoptables.total > 0) {
+            //response from API/Server and report is valid
+            //
+            this.report = res.data;
+            this.updateCharts();
+          } else {
+            //response from API/Server but report is invalid (most likely no documents inserted yet)
+            //
+            this.report = null;
+            this.errorMsg = "Unable to generate report when no valid documents exist..."
+          }
         } else {
-          //no report, API/DB server must be down.
+          //no response from API/Server
           //
           this.report = null;
+          this.errorMsg = "Sorry, there was an error connecting to the API..."
         }
       })
   }

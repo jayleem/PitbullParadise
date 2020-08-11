@@ -9,6 +9,7 @@ export class BackButtonDirective {
   constructor(private location: Location) { }
 
   @HostListener('click', ['$event']) onClick($event) {
+    console.log($event);
    this.onBack();
   }
 

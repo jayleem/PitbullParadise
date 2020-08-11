@@ -20,6 +20,7 @@ import { ChartsModule } from 'ng2-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { BackButtonModule } from '../shared/modules/back-button/back-button.module';
 
 
 @NgModule({
@@ -34,7 +35,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     AdminPanelComponent,
     AdminNavComponent,
     AnalyticsComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
   ],
   exports: [
     AdminComponent
@@ -49,7 +50,8 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     ChartsModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BackButtonModule
   ]
 })
 export class AdminModule { }
