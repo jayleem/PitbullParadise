@@ -26,8 +26,8 @@ router.get('/api/dogs/count', [dogController.getDocCountAsync]);
 router.get('/api/dogs/featured', [dogController.getFeaturedDogAsync]);
 router.get('/api/dogs/id/:id', [dogController.getDogByIdAsync]);
 router.get('/api/dogs/query', [dogController.getDogsByQueryAsync]);
-router.get('/api/connection-test', (req, res) => {res.sendStatus(200);res.end();});
+router.get('/api/connection-test', (req, res) => { res.sendStatus(200); res.end(); });
 //ANY route
 //
-router.get('*', (req, res) => {res.status(400).json({message:'resource does not exist'})});
+router.get('*', (req, res) => { res.status(400).json({ message: 'resource does not exist' }) });
 module.exports = router;

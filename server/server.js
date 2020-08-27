@@ -10,6 +10,11 @@ const express = require('express'),
 //
 app.use(express.static(__dirname + '/dist' + '/PitbullParadiseApp'));
 
+const path = '../dist' + '/PitbullParadiseApp/';
+app.get('/', (req, res) => {
+    res.sendFile('index.html', {root: path});
+});
+
 //Setup mongoose connection
 //
 const mongoose = require('mongoose');
