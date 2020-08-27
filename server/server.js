@@ -58,8 +58,8 @@ app.use('/', routes);
 //
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));//callbacks for errors
 db.once('open', () => {
-    server.listen(3000, () => {
-        console.log('Server running on port 3000');
+    server.listen(process.env.PORT || 3000, () => {
+        console.log('Server listening');
     });
 });
 
