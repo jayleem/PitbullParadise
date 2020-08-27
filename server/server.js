@@ -4,7 +4,10 @@ const express = require('express'),
     app = express(),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
-    env = require('dotenv').config({ "path": "./process.env" });//enviorment variables
+    env = require('dotenv').config({ "path": "./process.env" }),
+    server = require('http').Server(app);
+
+app.use(express.static(__dirname, 'dist', {index: false}));
 
 //Setup mongoose connection
 //
