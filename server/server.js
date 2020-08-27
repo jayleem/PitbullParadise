@@ -4,8 +4,7 @@ const express = require('express'),
     app = express(),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
-    env = require('dotenv').config({ "path": "./process.env" }),
-    server = require('http').Server(app);
+    env = require('dotenv').config({ "path": "./process.env" });
 
 app.use(express.static(__dirname, 'dist', {index: false}));
 
