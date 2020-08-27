@@ -4,16 +4,19 @@ const express = require('express'),
     app = express(),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
-    env = require('dotenv').config({ "path": "./process.env" });
+    env = require('dotenv').config({ "path": "./process.env" }),
+    path = require('path');
 
-//Serve Angular Directory
+//Directory of the static files
+var staticRoot = path.join(__dirname, "..", "dist", "PitbullParadiseApp");//root directory of built app deployed on heroku/locally
+//Landing Page
 //
-app.use(express.static(__dirname + '/dist' + '/PitbullParadiseApp'));
-
-const path = '../dist' + '/PitbullParadiseApp/';
-app.get('/', (req, res) => {
-    res.sendFile('index.html', {root: path});
+app.get("/", function (req, res) {
+    res.sendFile('index.html', { root: staticRoot });
 });
+//Serve static files
+//
+app.use(express.static(staticRoot));
 
 //Setup mongoose connection
 //
@@ -61,6 +64,7 @@ app.use(cors(corsOptions));
 //Setup routes **important to be below bodyParser else it wont work properly**
 //
 const routes = require('./routes');
+const { static } = require('express');
 app.use('/', routes);
 
 //Start Server 
