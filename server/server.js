@@ -6,7 +6,9 @@ const express = require('express'),
     io = require('socket.io').listen(server),
     env = require('dotenv').config({ "path": "./process.env" });
 
-app.use(express.static(__dirname, 'dist', {index: false}));
+//Serve Angular Directory
+//
+app.use(express.static(__dirname + '/dist' + '/PitbullParadiseApp'));
 
 //Setup mongoose connection
 //
