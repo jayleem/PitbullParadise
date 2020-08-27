@@ -15,10 +15,6 @@ export class AdminPanelComponent implements OnInit {
   public countdown: any;
   public purging: boolean = false;
   public dbStatus: boolean = false;
-  //TO-DO
-  //get server addr and api key from enviorment variables
-  public serverAddr: string = "http://localhost:3000/"
-  public apiKey: string = "abcdef12345"
 
   private title: string = "Pitbull Paradise | Admin Panel";
   private metaDesc: string = "";

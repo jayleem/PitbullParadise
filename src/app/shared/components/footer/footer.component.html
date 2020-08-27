@@ -1,4 +1,4 @@
-<footer id="footer" class="container-fluid bg-light pt-3 shadow py-4 overflow-hidden">
+<footer id="footer" class="container-fluid bg-light pt-3 shadow overflow-hidden">
     <div class="row d-flex justify-content-start text-center">
        <div class="col-sm-12 col-md-6">
           <div class="row">
@@ -76,9 +76,15 @@
              </form>
           </div>
        </div>
-       <div class="col-sm-12">
+       <div class="col-sm-12 p-0 m-0">
           <small>&copy; {{date | date:'yyyy'}}, Pitbull Paradise, Inc. Made by <span><a target="_blank"
                    href='https://github.com/jayleem'>J / LEE</a></span>.
+          </small>
+       </div>
+       <div class="col-sm-12 p-0 m-0">
+          <small>
+               <a class="nav-link" routerLink="/admin/login" routerLinkActive="active"
+                 [routerLinkActiveOptions]="{exact: true}">WEBMASTER LOGIN</a>
           </small>
        </div>
     </div>

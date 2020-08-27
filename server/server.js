@@ -3,14 +3,27 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     app = express(),
     server = require('http').createServer(app),
-    io = require('socket.io').listen(server);
+    io = require('socket.io').listen(server),
+    env = require('dotenv').config({ "path": "./process.env" });//enviorment variables
 
 //Setup mongoose connection
 //
 const mongoose = require('mongoose');
-const mongoDB = 'mongodb://localhost/default';
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
+const uri = process.env.ATLAS_URI || 'mongodb://localhost/default';
+mongoose.connect(uri,
+    {
+        user: process.env.USER,
+        pass: process.env.PASSWORD,
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false
+    });
+
 var db = mongoose.connection;
+db.once('open', () => {
+    console.log('connected');
+});
 
 //Setup body parser
 //
