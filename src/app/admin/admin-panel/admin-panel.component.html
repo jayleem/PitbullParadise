@@ -5,17 +5,7 @@
                 <div class="card-header bg-secondary">
                     <h4 class="text-light text-outline-dark">Admin Control Panel</h4>
                 </div>
-                <div class="card-body my-4">
-                    <h4 class="card-text">API Status</h4>
-                    <hr class="w-100">
-                    <div class="col-sm-12 mb-4">
-                        <p class="card-text">Server Address: <a target="_blank" href="{{serverAddr}}">{{serverAddr}}</a>
-                        </p>
-                        <p class="card-text">Connection: <i
-                                [ngClass]="!dbStatus ? 'text-danger fas fa-times':'text-success fas fa-check'"></i></p>
-                        <button class="btn-system btn-block mb-2 text-center" (click)="dbTestConnection()">Test
-                            Connection</button>
-                    </div>
+                <div class="card-body my-4">                    
                     <h4 class="card-text">Analytics:</h4>
                     <hr class="w-100">
                     <!-- Start Analytics Component -->
