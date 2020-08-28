@@ -33,12 +33,6 @@ app.use(bodyParser.json());
 //Setup CORS options
 //
 var whitelist = [
-    `http://localhost:${process.env.PORT}`,
-    `https://localhost:${process.env.PORT}`,
-    'http://localhost:4200',
-    'https://localhost:4200',
-    'http://localhost:3000',
-    'https://localhost:3000',
     'http://pitbullparadise.herokuapp.com/',
     'https://pitbullparadise.herokuapp.com/'
 ];
