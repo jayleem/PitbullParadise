@@ -4,19 +4,7 @@ const express = require('express'),
     app = express(),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
-    env = require('dotenv').config({ "path": "./process.env" }),
-    path = require('path');
-
-//Directory of the static files
-var staticRoot = path.join(__dirname, "..", "dist", "PitbullParadiseApp");//root directory of built app deployed on heroku/locally
-//Landing Page
-//
-app.get("/", function (req, res) {
-    res.sendFile('index.html', { root: staticRoot });
-});
-//Serve static files
-//
-app.use(express.static(staticRoot));
+    env = require('dotenv').config({ "path": "./process.env" });
 
 //Setup mongoose connection
 //
@@ -24,8 +12,8 @@ const mongoose = require('mongoose');
 const uri = process.env.ATLAS_URI || 'mongodb://localhost/default';
 mongoose.connect(uri,
     {
-        user: process.env.USER,
-        pass: process.env.PASSWORD,
+        //user: process.env.USER,
+        //pass: process.env.PASSWORD,
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
@@ -46,10 +34,14 @@ app.use(bodyParser.json());
 //
 var whitelist = [
     'http://localhost:4200',
-    'https://localhost:4200'
+    'https://localhost:4200',
+    'http://localhost:3000',
+    'https://localhost:3000',
+    'http://pitbullparadise.herokuapp.com/',
+    'https://pitbullparadise.herokuapp.com/'
 ];
 var corsOptions = {
-    origin: function (origin, callback) {
+    origin: (origin, callback) => {
         if (whitelist.indexOf(origin) !== -1) {
             return callback(null, true);
         } else {
@@ -61,18 +53,29 @@ var corsOptions = {
 }
 app.use(cors(corsOptions));
 
-//Setup routes **important to be below bodyParser else it wont work properly**
+//Setup routes must be below bodyParser
 //
 const routes = require('./routes');
-const { static } = require('express');
-app.use('/', routes);
+const path = require ('path');
+var staticRoot = path.join(__dirname, '..', 'dist', 'PitbullParadiseApp');//root directory of compiled app
+//api routes
+//
+app.use('/api', routes);
+//Serve static folder
+//
+app.use(express.static(staticRoot));
+//Send index.html
+// 
+app.get('*', function(req, res) {
+    res.sendFile(path.join(staticRoot,'index.html'));
+});
 
 //Start Server 
 //
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));//callbacks for errors
 db.once('open', () => {
     server.listen(process.env.PORT || 3000, () => {
-        console.log('Server listening');
+        process.env.PORT ? console.log(`Server listening on port ${process.env.port}`) : console.log('Server listening on port 3000');
     });
 });
 

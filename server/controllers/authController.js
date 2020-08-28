@@ -8,6 +8,7 @@ const privateKey = fs.readFileSync('./private.key', 'utf-8');
 const publicKey = fs.readFileSync('./public.key', 'utf-8');
 
 exports.login = async (req, res, next) => {
+    console.log('login');
     //credentials
     //
     const uname = req.body.username;
