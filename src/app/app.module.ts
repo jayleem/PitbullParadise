@@ -34,7 +34,7 @@ import { ChartsModule } from 'ng2-charts';
 //socket.io configuration
 //
 import { SocketIoModule, SocketIoConfig } from '@hreimer/ngx-socket-io';
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+const config: SocketIoConfig = { url: 'https://pitbullparadise.herokuapp.com/', options: {} };
 
 //shared modules
 //
