@@ -77,7 +77,7 @@ app.get('*', function(req, res) {
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));//callbacks for errors
 db.once('open', () => {
     server.listen(process.env.PORT || 3000, () => {
-        process.env.PORT ? console.log(`Server listening on port ${process.env.port}`) : console.log('Server listening on port 3000');
+        process.env.PORT ? console.log(`Server listening on port ${process.env.PORT}`) : console.log('Server listening on port 3000');
     });
 });
 
