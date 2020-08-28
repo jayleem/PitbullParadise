@@ -4,7 +4,8 @@ const express = require('express'),
     app = express(),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
-    env = require('dotenv').config({ "path": "./process.env" });
+    path = require ('path'),
+    results = require('dotenv').config({ path: path.join(__dirname, "..", ".env") });
 
 //Setup mongoose connection
 //
@@ -12,8 +13,8 @@ const mongoose = require('mongoose');
 const uri = process.env.ATLAS_URI || 'mongodb://localhost/default';
 mongoose.connect(uri,
     {
-        //user: process.env.USER,
-        //pass: process.env.PASSWORD,
+        user: process.env.USER,
+        pass: process.env.PASSWORD,
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
@@ -52,7 +53,6 @@ app.use(cors(corsOptions));
 //Setup routes must be below bodyParser
 //
 const routes = require('./routes');
-const path = require ('path');
 var staticRoot = path.join(__dirname, '..', 'dist', 'PitbullParadiseApp');//root directory of compiled app
 //api routes
 //
