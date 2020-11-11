@@ -1,5 +1,4 @@
 var Adoptable = require('../models/adoptable');
-const { DH_UNABLE_TO_CHECK_GENERATOR } = require('constants');
 const COLLECTION = 'adoptables';
 
 //Get data sent from the /api/admin/create route

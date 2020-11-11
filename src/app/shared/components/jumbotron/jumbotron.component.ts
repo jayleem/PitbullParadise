@@ -30,7 +30,7 @@ export class JumbotronComponent implements OnInit {
       image: 'https://images.unsplash.com/photo-1550763200-c150c99abfbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1440&q=60',
       message: 'Become a foster and save a life!',
       link: '/',
-      linkText: 'Apply to be a foster parent'
+      linkText: 'Apply to be a foster'
     },
   ];
   public imageUrl;
