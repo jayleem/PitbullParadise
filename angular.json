@@ -124,5 +124,8 @@
         }
       }
     }},
-  "defaultProject": "PitbullParadiseApp"
+  "defaultProject": "PitbullParadiseApp",
+  "cli": {
+    "analytics": false
+  }
 }
